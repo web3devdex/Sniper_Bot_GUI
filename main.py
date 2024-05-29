@@ -6,6 +6,7 @@ from PySide6 import QtCore, QtGui, QtWidgets
 from PySide6.QtCore import (QCoreApplication, QPropertyAnimation, QDate, QDateTime, QMetaObject, QObject, QPoint, QRect, QSize, QTime, QUrl, Qt, QEvent)
 from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont, QFontDatabase, QIcon, QKeySequence, QLinearGradient, QPalette, QPainter, QPixmap, QRadialGradient)
 from PySide6.QtWidgets import *
+from ui_styles import Style
 
 ## ==> SPLASH SCREEN
 from ui_splash_screen import Ui_SplashScreen
@@ -27,6 +28,8 @@ class MainWindow(QMainWindow):
         QtCore.QTimer.singleShot(1500, lambda: self.ui.label.setText("<strong>THANKS</strong> FOR WATCHING"))
         QtCore.QTimer.singleShot(1500, lambda: self.setStyleSheet("background-color: #222; color: #FFF"))
         
+
+
 
 # SPLASH SCREEN
 class SplashScreen(QMainWindow):
@@ -132,8 +135,8 @@ class SplashScreen(QMainWindow):
             # STOP TIMER
             self.timer.stop()
             # SHOW MAIN WINDOW (placeholder for actual main window class)
-            subprocess.run(['gui.exe', '--start'])
             self.close()
+            subprocess.run(['gui.exe', '--start'])
 
         # INCREASE COUNTER
         if self.counter > 24:

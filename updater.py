@@ -28,10 +28,6 @@ class MainWindow(QMainWindow):
         QtCore.QTimer.singleShot(1500, lambda: self.setStyleSheet("background-color: #222; color: #FFF"))
         
 
-
-
-
-
 # SPLASH SCREEN
 class SplashScreen(QMainWindow):
     def __init__(self):
@@ -47,7 +43,6 @@ class SplashScreen(QMainWindow):
         #self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
 
 
-        ## DROP SHADOW EFFECT
         self.shadow = QGraphicsDropShadowEffect(self)
         self.shadow.setBlurRadius(20)
         self.shadow.setXOffset(0)
@@ -59,7 +54,6 @@ class SplashScreen(QMainWindow):
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.progress)
         # TIMER IN MILLISECONDS
-        self.timer.start(35)
 
         # CHANGE DESCRIPTION
 
@@ -69,27 +63,32 @@ class SplashScreen(QMainWindow):
         ## SHOW ==> MAIN WINDOW
         ########################################################################
         self.show()
+        self.timer.start(50)
         ## ==> END ##
 
     ## ==> APP FUNCTIONS
     ########################################################################
 
+    def get_local_versions(self):
+        response = requests.get('https://raw.githubusercontent.com/Synarix/Sniper_Bot_GUI/main/version.txt')
+        response.raise_for_status()
+        latest_version = response.text.strip()
+        # Get the local version
+        process = subprocess.run(['gui.exe', '--version'], capture_output=True, text=True)
+        local_version = process.stdout.strip()
+        return { "latest": latest_version, "local": local_version}
+
     def check_version(self):
-        QtCore.QTimer.singleShot(500, lambda: self.ui.label_description.setText("<strong>Check Version</strong>"))
+        QtCore.QTimer.singleShot(1000, lambda: self.ui.label_description.setText("<strong>Check Version</strong>"))
         try:
             # Fetch the latest version from GitHub
-            #response = requests.get('https://raw.githubusercontent.com/username/repository/branch/version.txt')
-            #response.raise_for_status()
-            latest_version = "Version: 1.01" #response.text.strip()
-            # Get the local version
-            process = subprocess.run(['gui.exe', '--version'], capture_output=True, text=True)
-            local_version = process.stdout.strip()
-            print(local_version)
+            versions = self.get_local_versions()
+            latest_version, local_version = versions["latest"], versions["local"]
             if local_version != latest_version:
-                QtCore.QTimer.singleShot(500, lambda: self.ui.label_description.setText("<strong>Download</strong> new gui.exe"))
+                QtCore.QTimer.singleShot(1000, lambda: self.ui.label_description.setText("<strong>Download</strong> new gui.exe"))
                 self.download_new_version()
             else:
-                QtCore.QTimer.singleShot(500, lambda: self.ui.label_description.setText("<strong>Already newest Version</strong>"))
+                QtCore.QTimer.singleShot(1000, lambda: self.ui.label_description.setText("<strong>Already newest Version</strong>"))
 
         except requests.RequestException as e:
             self.ui.label_description.setText(f"Error fetching version: {e}")
@@ -100,15 +99,15 @@ class SplashScreen(QMainWindow):
 
     def download_new_version(self):
         try:
-            url = 'https://github.com/username/repository/releases/download/latest/gui.exe'
+            url = 'https://github.com/Synarix/Sniper_Bot_GUI/raw/main/gui.exe'
             response = requests.get(url)
             response.raise_for_status()
             with open('gui.exe', 'wb') as f:
                 f.write(response.content)
-            self.ui.label_description.setText("<strong>Download complete</strong>")
+            QtCore.QTimer.singleShot(1000, lambda: self.ui.label_description.setText("<strong>Download complete</strong>"))
         except requests.RequestException as e:
             print(e)
-            self.ui.label_description.setText(f"Error downloading new version: {e}")
+            QtCore.QTimer.singleShot(1000, lambda: self.ui.label_description.setText(f"Error downloading new version: {e}"))
         except Exception as e:
             print(e)
 
@@ -119,7 +118,9 @@ class SplashScreen(QMainWindow):
         if self.counter < 10:
             self.ui.label_description.setText("<strong>Initialized</strong>")
             self.check_version()
-            self.counter = 10
+            self.counter = 25
+
+        
 
         # CLOSE SPLASH SCREEN AND OPEN APP
         if self.counter > 100:
@@ -132,7 +133,7 @@ class SplashScreen(QMainWindow):
             self.close()
 
         # INCREASE COUNTER
-        if self.counter > 9:
+        if self.counter > 24:
             self.counter += 1
 
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'splash_screenBEmjNV.ui'
+## Form generated from reading UI file 'splash_screenGlxQBy.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.7.1
 ##
@@ -22,7 +22,7 @@ class Ui_SplashScreen(object):
     def setupUi(self, SplashScreen):
         if not SplashScreen.objectName():
             SplashScreen.setObjectName(u"SplashScreen")
-        SplashScreen.resize(680, 400)
+        SplashScreen.resize(675, 400)
         self.centralwidget = QWidget(SplashScreen)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
@@ -41,22 +41,22 @@ class Ui_SplashScreen(object):
         self.verticalLayout_2 = QVBoxLayout(self.dropShadowFrame)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setContentsMargins(40, 15, 40, 5)
-        self.label_title = QLabel(self.dropShadowFrame)
-        self.label_title.setObjectName(u"label_title")
+        self.label_logo = QLabel(self.dropShadowFrame)
+        self.label_logo.setObjectName(u"label_logo")
         font = QFont()
         font.setFamilies([u"Segoe UI"])
         font.setPointSize(40)
-        self.label_title.setFont(font)
-        self.label_title.setStyleSheet(u"color: rgb(57, 255, 20);")
-        self.label_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.label_logo.setFont(font)
+        self.label_logo.setStyleSheet(u"color:rgba(30, 136, 229, 255);")
+        self.label_logo.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.verticalLayout_2.addWidget(self.label_title)
+        self.verticalLayout_2.addWidget(self.label_logo)
 
         self.label_description = QLabel(self.dropShadowFrame)
         self.label_description.setObjectName(u"label_description")
         font1 = QFont()
         font1.setFamilies([u"Segoe UI"])
-        font1.setPointSize(14)
+        font1.setPointSize(12)
         self.label_description.setFont(font1)
         self.label_description.setStyleSheet(u"")
         self.label_description.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -70,18 +70,18 @@ class Ui_SplashScreen(object):
 "    background-color: rgb(98, 114, 164);\n"
 "    color: rgb(0, 255, 255);\n"
 "    border-style: none;\n"
-"    border-radius: 10px;\n"
+"    border-radius: 15px;\n"
 "    text-align: center;\n"
 "}\n"
 "\n"
 "QProgressBar::chunk {\n"
-"    border-radius: 10px;\n"
+"    border-radius: 15px;\n"
 "    background-color: qlineargradient(\n"
 "        spread:pad, \n"
 "        x1:0, y1:0.511364, \n"
 "        x2:1, y2:0.523, \n"
-"        stop:0 rgba(30, 136, 229, 255), /* Hauptfarbe */\n"
-"        stop:1 rgba(255, 165, 0, 255)  /* Akzentfarbe 1 */\n"
+"        stop:0 rgba(30, 136, 229, 255),\n"
+"        stop:1 rgba(255, 165, 0, 255)  \n"
 "    );\n"
 "}")
         self.progressBar.setValue(24)
@@ -92,7 +92,7 @@ class Ui_SplashScreen(object):
         self.label_loading.setObjectName(u"label_loading")
         font2 = QFont()
         font2.setFamilies([u"Segoe UI"])
-        font2.setPointSize(12)
+        font2.setPointSize(14)
         self.label_loading.setFont(font2)
         self.label_loading.setStyleSheet(u"")
         self.label_loading.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -123,9 +123,9 @@ class Ui_SplashScreen(object):
 
     def retranslateUi(self, SplashScreen):
         SplashScreen.setWindowTitle(QCoreApplication.translate("SplashScreen", u"MainWindow", None))
-        self.label_title.setText(QCoreApplication.translate("SplashScreen", u"<html><head/><body><p>IntegerNAME </p></body></html>", None))
-        self.label_description.setText(QCoreApplication.translate("SplashScreen", u"<html><head/><body><p><span style=\" font-weight:700;\">SNIPER</span>  App</p></body></html>", None))
-        self.label_loading.setText(QCoreApplication.translate("SplashScreen", u"loading...", None))
-        self.label_credits.setText(QCoreApplication.translate("SplashScreen", u"<html><head/><body><p><span style=\" font-weight:700;\">License</span>: </p></body></html>", None))
+        self.label_logo.setText(QCoreApplication.translate("SplashScreen", u"<html><head/><body><p><span style=\" font-weight:700;\">Synarix</span></p></body></html>", None))
+        self.label_description.setText(QCoreApplication.translate("SplashScreen", u"loading...", None))
+        self.label_loading.setText(QCoreApplication.translate("SplashScreen", u"<html><head/><body><p><span style=\" font-weight:700;\">SNIPER</span>  App</p></body></html>", None))
+        self.label_credits.setText(QCoreApplication.translate("SplashScreen", u"<html><head/><body><p><span style=\" font-weight:700;\">License</span>: <a href=\"https://github.com/Synarix/Sniper_Bot_GUI/tree/main?tab=LGPL-2.1-1-ov-file\"><span style=\" font-family:'-apple-system','BlinkMacSystemFont','Segoe UI','Noto Sans','Helvetica','Arial','sans-serif','Apple Color Emoji','Segoe UI Emoji'; font-size:14px; color:#000000;\">LGPL-2.1 license</span></a></p></body></html>", None))
     # retranslateUi
 

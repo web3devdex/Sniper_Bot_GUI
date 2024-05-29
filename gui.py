@@ -7,8 +7,7 @@ def main():
     args = parser.parse_args()
 
     if args.version:
-        print("Version: 1.0")
-
+        print("Version: 0.1b")
     elif args.start: 
         print("Running gui.exe")
 

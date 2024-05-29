@@ -1,0 +1,40 @@
+{
+    "colors": [
+      {
+        "name": "primary",
+        "type": {
+          "hex": "#39FF14",
+          "rgb": "rgb(57, 255, 20)"
+        }
+      },
+      {
+        "name": "secondary",
+        "type": {
+          "hex": "#FFA500",
+          "rgb": "rgb(255, 165, 0)"
+        }
+      },
+      {
+        "name": "tertiary",
+        "type": {
+          "hex": "#8A2BE2",
+          "rgb": "rgb(138, 43, 226)"
+        }
+      },
+      {
+        "name": "lightUp",
+        "type": {
+          "hex": "#00FFFF",
+          "rgb": "rgb(0, 255, 255)"
+        }
+      },
+      {
+        "name": "background",
+        "type": {
+          "hex": "#333333",
+          "rgb": "rgb(51, 51, 51)"
+        }
+      }
+    ]
+  }
+  

@@ -63,7 +63,7 @@ class SplashScreen(QMainWindow):
         ## SHOW ==> MAIN WINDOW
         ########################################################################
         self.show()
-        self.timer.start(50)
+        self.timer.start(100)
         ## ==> END ##
 
     ## ==> APP FUNCTIONS
@@ -79,16 +79,16 @@ class SplashScreen(QMainWindow):
         return { "latest": latest_version, "local": local_version}
 
     def check_version(self):
-        QtCore.QTimer.singleShot(1000, lambda: self.ui.label_description.setText("<strong>Check Version</strong>"))
+        self.ui.label_description.setText("<strong>Check Version</strong>")
         try:
             # Fetch the latest version from GitHub
             versions = self.get_local_versions()
             latest_version, local_version = versions["latest"], versions["local"]
             if local_version != latest_version:
-                QtCore.QTimer.singleShot(1000, lambda: self.ui.label_description.setText("<strong>Download</strong> new gui.exe"))
+                self.ui.label_description.setText("<strong>Download</strong> new gui.exe")
                 self.download_new_version()
             else:
-                QtCore.QTimer.singleShot(1000, lambda: self.ui.label_description.setText("<strong>Already newest Version</strong>"))
+                self.ui.label_description.setText("<strong>Already newest Version</strong>")
 
         except requests.RequestException as e:
             self.ui.label_description.setText(f"Error fetching version: {e}")
@@ -104,37 +104,42 @@ class SplashScreen(QMainWindow):
             response.raise_for_status()
             with open('gui.exe', 'wb') as f:
                 f.write(response.content)
-            QtCore.QTimer.singleShot(1000, lambda: self.ui.label_description.setText("<strong>Download complete</strong>"))
+            self.ui.label_description.setText("<strong>Download complete</strong>")
         except requests.RequestException as e:
             print(e)
-            QtCore.QTimer.singleShot(1000, lambda: self.ui.label_description.setText(f"Error downloading new version: {e}"))
+            self.ui.label_description.setText(f"Error downloading new version: {e}")
         except Exception as e:
             print(e)
 
     def progress(self):
-        # SET VALUE TO PROGRESS BAR
-        self.ui.progressBar.setValue(self.counter)
 
         if self.counter < 10:
             self.ui.label_description.setText("<strong>Initialized</strong>")
             self.check_version()
-            self.counter = 25
+            self.counter = 45
+            self.ui.progressBar.setValue(self.counter)
 
-        
+        if self.counter < 46:
+            self.ui.label_description.setText("<strong>Check Settings</strong>")
+            print(True)
+
+            self.counter = 99
+            self.ui.progressBar.setValue(self.counter)
+
 
         # CLOSE SPLASH SCREEN AND OPEN APP
         if self.counter > 100:
             # STOP TIMER
             self.timer.stop()
             # SHOW MAIN WINDOW (placeholder for actual main window class)
-            self.main = MainWindow()  # Replace with actual main window class
-            self.main.show()
-            # CLOSE SPLASH SCREEN
+            subprocess.run(['gui.exe', '--start'])
             self.close()
 
         # INCREASE COUNTER
         if self.counter > 24:
             self.counter += 1
+        self.ui.progressBar.setValue(self.counter)
+
 
 
 

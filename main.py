@@ -1,5 +1,4 @@
-import sys
-import platform
+import sys, os, platform
 import requests
 import subprocess
 from PySide6 import QtCore, QtGui, QtWidgets
@@ -16,6 +15,16 @@ from ui_main import Ui_MainWindow
 
 ## ==> GLOBALS
 counter = 0
+executable = False
+python_executable = sys.executable
+
+script_path = os.path.abspath(__file__)
+script_dir = os.path.dirname(script_path)
+
+print(f"Script Directory: {script_dir}")
+print(f"Python Directory: {python_executable}")
+print('System: ' + platform.system())
+print('Version: ' + platform.release())
 
 # YOUR APPLICATION
 class MainWindow(QMainWindow):
@@ -24,12 +33,6 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         
-
-        QtCore.QTimer.singleShot(1500, lambda: self.ui.label.setText("<strong>THANKS</strong> FOR WATCHING"))
-        QtCore.QTimer.singleShot(1500, lambda: self.setStyleSheet("background-color: #222; color: #FFF"))
-        
-
-
 
 # SPLASH SCREEN
 class SplashScreen(QMainWindow):
@@ -77,35 +80,43 @@ class SplashScreen(QMainWindow):
         response.raise_for_status()
         latest_version = response.text.strip()
         # Get the local version
-        process = subprocess.run(['gui.exe', '--version'], capture_output=True, text=True)
+        if executable:
+            process = subprocess.run([os.path.join(script_dir, 'gui.exe'), '--version'], capture_output=True, text=True)
+        else:
+            process = subprocess.run([os.path.join(script_dir, 'gui.py'), '--version'], capture_output=True, text=True)
         local_version = process.stdout.strip()
         return { "latest": latest_version, "local": local_version}
 
     def check_version(self):
         self.ui.label_description.setText("<strong>Check Version</strong>")
         try:
-            # Fetch the latest version from GitHub
             versions = self.get_local_versions()
-            latest_version, local_version = versions["latest"], versions["local"]
-            if local_version != latest_version:
-                self.ui.label_description.setText("<strong>Download</strong> new gui.exe")
-                self.download_new_version()
-            else:
-                self.ui.label_description.setText("<strong>Already newest Version</strong>")
+            try:
+                # Fetch the latest version from GitHub
+                latest_version, local_version = versions["latest"], versions["local"]
+                if local_version != latest_version:
+                    self.ui.label_description.setText("<strong>Download</strong> new gui.exe")
+                    self.download_new_version()
+                else:
+                    self.ui.label_description.setText("<strong>Already newest Version</strong>")
 
-        except requests.RequestException as e:
-            self.ui.label_description.setText(f"Error fetching version: {e}")
-            print(e)
-        except subprocess.SubprocessError as e:
-            self.ui.label_description.setText(f"Error checking local version: {e}")
-            print(e)
+            except requests.RequestException as e:
+                self.ui.label_description.setText(f"Error fetching version: {e}")
+                print(e)
+            except subprocess.SubprocessError as e:
+                self.ui.label_description.setText(f"Error checking local version: {e}")
+                print(e)
+        except Exception as e:
+            if type(FileNotFoundError()) == type(e):
+                self.download_new_version()
+                
 
     def download_new_version(self):
         try:
             url = 'https://github.com/Synarix/Sniper_Bot_GUI/raw/main/gui.exe'
             response = requests.get(url)
             response.raise_for_status()
-            with open('gui.exe', 'wb') as f:
+            with open(f'{script_dir}/gui.exe', 'wb') as f:
                 f.write(response.content)
             self.ui.label_description.setText("<strong>Download complete</strong>")
         except requests.RequestException as e:
@@ -124,11 +135,8 @@ class SplashScreen(QMainWindow):
 
         if self.counter < 46:
             self.ui.label_description.setText("<strong>Check Settings</strong>")
-            print(True)
-
-            self.counter = 99
+            self.counter = 90
             self.ui.progressBar.setValue(self.counter)
-
 
         # CLOSE SPLASH SCREEN AND OPEN APP
         if self.counter > 100:
@@ -136,7 +144,8 @@ class SplashScreen(QMainWindow):
             self.timer.stop()
             # SHOW MAIN WINDOW (placeholder for actual main window class)
             self.close()
-            subprocess.run(['gui.exe', '--start'])
+            ## ADD SYSTEM CHECK AND USE currect path
+            subprocess.run([python_executable, os.path.join(script_dir, 'gui.py')])
 
         # INCREASE COUNTER
         if self.counter > 24:

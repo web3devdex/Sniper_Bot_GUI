@@ -1,12 +1,12 @@
 import sys
-import platform
+
 from PySide6 import QtCore, QtGui, QtWidgets
-from PySide6.QtCore import (QCoreApplication, QPropertyAnimation, QDate, QDateTime, QMetaObject, QObject, QPoint, QRect, QSize, QTime, QUrl, Qt, QEvent)
+from PySide6.QtCore import *
 from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont, QFontDatabase, QIcon, QKeySequence, QLinearGradient, QPalette, QPainter, QPixmap, QRadialGradient)
 from PySide6.QtWidgets import *
 from app_modules import *
 import argparse
-
+QWIDGETSIZE_MAX = (1 << 24) - 1
 
 parser = argparse.ArgumentParser(description='GUI Application')
 parser.add_argument('--version', action='store_true', help='Display the version information')
@@ -19,64 +19,91 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-        ## PRINT ==> SYSTEM
-        print('System: ' + platform.system())
-        print('Version: ' + platform.release())
-
         UIFunctions.removeTitleBar(True)
+        WindowTitle = 'Synarix - Multichain Sniper Bot'
+        self.setWindowTitle(WindowTitle)
+        UIFunctions.labelTitle(self, WindowTitle)
 
-        ## SET ==> WINDOW TITLE
-        self.setWindowTitle('Main Window - Python Base')
-        UIFunctions.labelTitle(self, 'Main Window - Python Base')
-        UIFunctions.labelDescription(self, 'Set text')
-        ## ==> END ##
 
-        ## WINDOW SIZE ==> DEFAULT SIZE
+        UIFunctions.labelDescription(self, 'Unlock or Create PWD')
+
         startSize = QSize(1000, 720)
         self.resize(startSize)
         self.setMinimumSize(startSize)
-        # UIFunctions.enableMaximumSize(self, 500, 720)
-        ## ==> END ##
 
+        self.ui.lineEdit_UnlockPwd.setEchoMode(QLineEdit.Password)
+        self.ui.lineEdit_UnlockPwd.setPlaceholderText("Enter your password")
+        self.ui.button_Unlock.clicked.connect(self.unlockWallet)
+        self.ui.stackedWidget.setCurrentWidget(self.ui.page_login)
+
+        def moveWindow(event):
+            if UIFunctions.returStatus() == 1:
+                UIFunctions.maximize_restore(self)
+            if event.buttons() == Qt.LeftButton:
+                self.move(self.pos() + event.globalPosition().toPoint() - self.dragPos)
+                self.dragPos = event.globalPosition().toPoint()
+                event.accept()
+        self.ui.frame_label_top_btns.mouseMoveEvent = moveWindow
+        UIFunctions.uiDefinitions(self)
+        self.show()
+
+
+
+    def show_incorrect_animation(self, component):
+        original_geometry = component.geometry()
+        animation = QPropertyAnimation(component, b"geometry")
+        animation.setDuration(500)
+        original_style = component.styleSheet()
+        keyframes = [
+            (0.0, original_geometry),
+            (0.1, QRect(original_geometry.x() - 10, original_geometry.y(), original_geometry.width(), original_geometry.height())),
+            (0.2, QRect(original_geometry.x() + 10, original_geometry.y(), original_geometry.width(), original_geometry.height())),
+            (0.3, QRect(original_geometry.x() - 10, original_geometry.y(), original_geometry.width(), original_geometry.height())),
+            (0.4, QRect(original_geometry.x() + 10, original_geometry.y(), original_geometry.width(), original_geometry.height())),
+            (0.5, original_geometry)
+        ]
+        for kf in keyframes:
+            animation.setKeyValueAt(kf[0], kf[1])
+        animation.setEndValue(original_geometry)
+        # Create an animation group to return the widget to its original position
+        animation_group = QSequentialAnimationGroup(self)
+        animation_group.addAnimation(animation)
+
+        # Start the animation
+        component.setStyleSheet(original_style + "border: 2px solid red;")
+        animation_group.start()
+        # Keep a reference to the animation group to prevent it from being garbage-collected
+        def reset_style():
+            self.ui.lineEdit_UnlockPwd.setStyleSheet(original_style)
+        QTimer.singleShot(500, reset_style)
+        
+        self.animation_group = animation_group
+
+
+
+    def unlockWallet(self):
+        print("unlock")
+        self.show_incorrect_animation(self.ui.lineEdit_UnlockPwd)
+
+
+
+
+    def Login(self):
         ## ==> CREATE MENUS
         ########################################################################
 
         ## ==> TOGGLE MENU SIZE
         self.ui.btn_toggle_menu.clicked.connect(lambda: UIFunctions.toggleMenu(self, 220, True))
         ## ==> END ##
-
-        ## ==> ADD CUSTOM MENUS
         self.ui.stackedWidget.setMinimumWidth(20)
-        UIFunctions.addNewMenu(self, "HOME", "btn_home", "url(:/16x16/icons/16x16/cil-home.png)", True)
-        UIFunctions.addNewMenu(self, "Add User", "btn_new_user", "url(:/16x16/icons/16x16/cil-user-follow.png)", True)
-
-        UIFunctions.addNewMenu(self, "Custom Widgets", "btn_widgets", "url(:/16x16/icons/16x16/cil-equalizer.png)", False)
-
+        UIFunctions.addNewMenu(self, "Wallet", "btn_home", "url(:/16x16/icons/16x16/cil-home.png)", True)
+        UIFunctions.addNewMenu(self, "Swap", "btn_widgets", "url(:/16x16/icons/16x16/cil-equalizer.png)", False)
+        UIFunctions.addNewMenu(self, "Sniper", "btn_new_user", "url(:/16x16/icons/16x16/cil-user-follow.png)", True)
         UIFunctions.selectStandardMenu(self, "btn_home")
-
         self.ui.stackedWidget.setCurrentWidget(self.ui.page_home)
-
         UIFunctions.userIcon(self, "WM", "", True)
 
-        def moveWindow(event):
 
-            if UIFunctions.returStatus() == 1:
-                UIFunctions.maximize_restore(self)
-
-
-            if event.buttons() == Qt.LeftButton:
-                self.move(self.pos() + event.globalPosition().toPoint() - self.dragPos)
-                self.dragPos = event.globalPosition().toPoint()
-                event.accept()
-
-
-        self.ui.frame_label_top_btns.mouseMoveEvent = moveWindow
-
-        UIFunctions.uiDefinitions(self)
-
-        self.ui.tableWidget.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
-
-        self.show()
 
     def Button(self):
         # GET BT CLICKED

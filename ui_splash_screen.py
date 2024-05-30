@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'splash_screenGlxQBy.ui'
+## Form generated from reading UI file 'splash_screen.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.7.1
 ##
@@ -32,12 +32,12 @@ class Ui_SplashScreen(object):
         self.dropShadowFrame = QFrame(self.centralwidget)
         self.dropShadowFrame.setObjectName(u"dropShadowFrame")
         self.dropShadowFrame.setStyleSheet(u"QFrame {\n"
-"    background-color: rgb(51, 51, 51); \n"
-"    color: rgb(0, 255, 255);\n"
+"    background-color:#2B3332; \n"
+"    color:#3ACAB7;\n"
 "    border-radius: 15px;\n"
 "}")
-        self.dropShadowFrame.setFrameShape(QFrame.Shape.StyledPanel)
-        self.dropShadowFrame.setFrameShadow(QFrame.Shadow.Raised)
+        self.dropShadowFrame.setFrameShape(QFrame.StyledPanel)
+        self.dropShadowFrame.setFrameShadow(QFrame.Raised)
         self.verticalLayout_2 = QVBoxLayout(self.dropShadowFrame)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setContentsMargins(40, 15, 40, 5)
@@ -48,7 +48,7 @@ class Ui_SplashScreen(object):
         font.setPointSize(40)
         self.label_logo.setFont(font)
         self.label_logo.setStyleSheet(u"color:rgba(30, 136, 229, 255);")
-        self.label_logo.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.label_logo.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_2.addWidget(self.label_logo)
 
@@ -59,7 +59,7 @@ class Ui_SplashScreen(object):
         font1.setPointSize(12)
         self.label_description.setFont(font1)
         self.label_description.setStyleSheet(u"")
-        self.label_description.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.label_description.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_2.addWidget(self.label_description)
 
@@ -95,7 +95,7 @@ class Ui_SplashScreen(object):
         font2.setPointSize(14)
         self.label_loading.setFont(font2)
         self.label_loading.setStyleSheet(u"")
-        self.label_loading.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.label_loading.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_2.addWidget(self.label_loading)
 
@@ -107,7 +107,7 @@ class Ui_SplashScreen(object):
         font3.setPointSize(10)
         self.label_credits.setFont(font3)
         self.label_credits.setStyleSheet(u"color: rgb(255, 165, 0);")
-        self.label_credits.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
+        self.label_credits.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
         self.verticalLayout_2.addWidget(self.label_credits)
 

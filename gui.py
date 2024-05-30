@@ -24,7 +24,6 @@ class MainWindow(QMainWindow):
         self.setWindowTitle(WindowTitle)
         UIFunctions.labelTitle(self, WindowTitle)
 
-
         UIFunctions.labelDescription(self, 'Unlock or Create PWD')
 
         startSize = QSize(1000, 720)
@@ -49,41 +48,9 @@ class MainWindow(QMainWindow):
 
 
 
-    def show_incorrect_animation(self, component):
-        original_geometry = component.geometry()
-        animation = QPropertyAnimation(component, b"geometry")
-        animation.setDuration(500)
-        original_style = component.styleSheet()
-        keyframes = [
-            (0.0, original_geometry),
-            (0.1, QRect(original_geometry.x() - 10, original_geometry.y(), original_geometry.width(), original_geometry.height())),
-            (0.2, QRect(original_geometry.x() + 10, original_geometry.y(), original_geometry.width(), original_geometry.height())),
-            (0.3, QRect(original_geometry.x() - 10, original_geometry.y(), original_geometry.width(), original_geometry.height())),
-            (0.4, QRect(original_geometry.x() + 10, original_geometry.y(), original_geometry.width(), original_geometry.height())),
-            (0.5, original_geometry)
-        ]
-        for kf in keyframes:
-            animation.setKeyValueAt(kf[0], kf[1])
-        animation.setEndValue(original_geometry)
-        # Create an animation group to return the widget to its original position
-        animation_group = QSequentialAnimationGroup(self)
-        animation_group.addAnimation(animation)
-
-        # Start the animation
-        component.setStyleSheet(original_style + "border: 2px solid red;")
-        animation_group.start()
-        # Keep a reference to the animation group to prevent it from being garbage-collected
-        def reset_style():
-            self.ui.lineEdit_UnlockPwd.setStyleSheet(original_style)
-        QTimer.singleShot(500, reset_style)
-        
-        self.animation_group = animation_group
-
-
-
     def unlockWallet(self):
         print("unlock")
-        self.show_incorrect_animation(self.ui.lineEdit_UnlockPwd)
+        UIFunctions.show_incorrect_animation(self, self.ui.lineEdit_UnlockPwd)
 
 
 

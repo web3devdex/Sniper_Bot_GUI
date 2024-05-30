@@ -1,19 +1,3 @@
-################################################################################
-##
-## BY: WANDERSON M.PIMENTA
-## PROJECT MADE WITH: Qt Designer and PySide6
-## V: 1.0.0
-##
-## This project can be used freely for all uses, as long as they maintain the
-## respective credits only in the Python scripts, any information in the visual
-## interface (GUI) can be modified without any implication.
-##
-## There are limitations on Qt licenses if you want to use your products
-## commercially, I recommend reading them on the official website:
-## https://doc.qt.io/qtforpython/licenses.html
-##
-################################################################################
-
 ## ==> GUI FILE
 from main import *
 
@@ -237,6 +221,37 @@ class UIFunctions(MainWindow):
         ## SHOW ==> CLOSE APPLICATION
         self.ui.btn_close.clicked.connect(lambda: self.close())
 
+
+
+    def show_incorrect_animation(self, component):
+        original_geometry = component.geometry()
+        animation = QPropertyAnimation(component, b"geometry")
+        animation.setDuration(500)
+        original_style = component.styleSheet()
+        keyframes = [
+            (0.0, original_geometry),
+            (0.1, QRect(original_geometry.x() - 10, original_geometry.y(), original_geometry.width(), original_geometry.height())),
+            (0.2, QRect(original_geometry.x() + 10, original_geometry.y(), original_geometry.width(), original_geometry.height())),
+            (0.3, QRect(original_geometry.x() - 10, original_geometry.y(), original_geometry.width(), original_geometry.height())),
+            (0.4, QRect(original_geometry.x() + 10, original_geometry.y(), original_geometry.width(), original_geometry.height())),
+            (0.5, original_geometry)
+        ]
+        for kf in keyframes:
+            animation.setKeyValueAt(kf[0], kf[1])
+        animation.setEndValue(original_geometry)
+        # Create an animation group to return the widget to its original position
+        animation_group = QSequentialAnimationGroup(self)
+        animation_group.addAnimation(animation)
+
+        # Start the animation
+        component.setStyleSheet(original_style + "border: 2px solid red;")
+        animation_group.start()
+        # Keep a reference to the animation group to prevent it from being garbage-collected
+        def reset_style():
+            self.ui.lineEdit_UnlockPwd.setStyleSheet(original_style)
+        QTimer.singleShot(500, reset_style)
+        
+        self.animation_group = animation_group
 
     ########################################################################
     ## END - GUI DEFINITIONS

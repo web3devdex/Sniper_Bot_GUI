@@ -17,7 +17,8 @@ args = parser.parse_args()
 class Popup(QFrame):
     def __init__(self, message, color, parent=None):
         super().__init__(parent)
-        self.setStyleSheet("border: 1px solid black; border-radius:5%; background:#1C212F;")
+        self.setStyleSheet("border-radius:15%; background:#1C212F;")
+        self.setFixedSize(200, 100)
         layout = QVBoxLayout(self)
         label = QLabel(message, self)
         label.setStyleSheet(f"color: {color};")
@@ -70,9 +71,7 @@ class MainWindow(QMainWindow):
     def show_popup(self, message, color):
         if self.popup is not None:
             self.remove_popup()
-
         self.popup = Popup(message, color, self.ui.frame_popup)
-        
         # Position the popup off-screen to the right
         start_rect = QRect(self.ui.frame_popup.width(), 
                            self.ui.frame_popup.rect().center().y() - 50, 
@@ -82,7 +81,6 @@ class MainWindow(QMainWindow):
 
         # Animate the popup in
         self.animate_popup_in(self.popup)
-
         # Set a timer to animate the popup out after 3 seconds
         QTimer.singleShot(3000, self.animate_popup_out)
 

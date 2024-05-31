@@ -23,6 +23,7 @@ class Encryption:
         self.password = password
         self.key = kdf.derive(self.password.encode())
 
+
     def encrypt(self, plaintext: str) -> str:
         iv = os.urandom(16)
         cipher = Cipher(algorithms.AES(self.key), modes.CBC(iv), backend=default_backend())
@@ -31,6 +32,7 @@ class Encryption:
         padded_data = padder.update(plaintext.encode()) + padder.finalize()
         ciphertext = encryptor.update(padded_data) + encryptor.finalize()
         return base64.b64encode(iv + salt + ciphertext).decode('utf-8')
+
 
     def decrypt(self, ciphertext: str) -> str:
         decoded_data = base64.b64decode(ciphertext.encode('utf-8'))
@@ -58,5 +60,4 @@ class Encryption:
             plaintext = unpadder.update(padded_plaintext) + unpadder.finalize()
         except ValueError:
             raise ValueError("Invalid padding bytes.")
-
         return plaintext.decode('utf-8')

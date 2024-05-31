@@ -5,12 +5,25 @@ from PySide6.QtCore import *
 from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont, QFontDatabase, QIcon, QKeySequence, QLinearGradient, QPalette, QPainter, QPixmap, QRadialGradient)
 from PySide6.QtWidgets import *
 from app_modules import *
+from ui_styles import Style
 import argparse
-QWIDGETSIZE_MAX = (1 << 24) - 1
 
 parser = argparse.ArgumentParser(description='GUI Application')
 parser.add_argument('--version', action='store_true', help='Display the version information')
 args = parser.parse_args()
+
+
+
+class Popup(QFrame):
+    def __init__(self, message, color, parent=None):
+        super().__init__(parent)
+        self.setStyleSheet("border: 1px solid black; border-radius:5%; background:#1C212F;")
+        layout = QVBoxLayout(self)
+        label = QLabel(message, self)
+        label.setStyleSheet(f"color: {color};")
+        label.setAlignment(Qt.AlignCenter)
+        layout.addWidget(label)
+
 
 
 class MainWindow(QMainWindow):
@@ -18,7 +31,7 @@ class MainWindow(QMainWindow):
         QMainWindow.__init__(self)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-
+        self.popup = None
         UIFunctions.removeTitleBar(True)
         WindowTitle = 'Synarix - Multichain Sniper Bot'
         self.setWindowTitle(WindowTitle)
@@ -51,8 +64,55 @@ class MainWindow(QMainWindow):
     def unlockWallet(self):
         print("unlock")
         UIFunctions.show_incorrect_animation(self, self.ui.lineEdit_UnlockPwd)
+        self.show_popup("This is a red popup!", "red")
 
 
+    def show_popup(self, message, color):
+        if self.popup is not None:
+            self.remove_popup()
+
+        self.popup = Popup(message, color, self.ui.frame_popup)
+        
+        # Position the popup off-screen to the right
+        start_rect = QRect(self.ui.frame_popup.width(), 
+                           self.ui.frame_popup.rect().center().y() - 50, 
+                           200, 100)
+        self.popup.setGeometry(start_rect)
+        self.popup.show()
+
+        # Animate the popup in
+        self.animate_popup_in(self.popup)
+
+        # Set a timer to animate the popup out after 3 seconds
+        QTimer.singleShot(3000, self.animate_popup_out)
+
+    def animate_popup_in(self, widget):
+        self.animation_in = QPropertyAnimation(widget, b"geometry")
+        self.animation_in.setDuration(1000)  # 1 second
+        end_rect = QRect(self.ui.frame_popup.rect().center().x() - 100, 
+                         self.ui.frame_popup.rect().center().y() - 50, 
+                         200, 100)
+        self.animation_in.setStartValue(widget.geometry())
+        self.animation_in.setEndValue(end_rect)
+        self.animation_in.start()
+
+    def animate_popup_out(self):
+        if self.popup:
+            self.animation_out = QPropertyAnimation(self.popup, b"geometry")
+            self.animation_out.setDuration(1000)  # 1 second
+            end_rect = QRect(self.ui.frame_popup.width(), 
+                             self.popup.geometry().y(), 
+                             200, 100)  # Off-screen to the right
+            self.animation_out.setStartValue(self.popup.geometry())
+            self.animation_out.setEndValue(end_rect)
+            self.animation_out.start()
+            self.animation_out.finished.connect(self.remove_popup)
+
+    def remove_popup(self):
+        if self.popup:
+            self.popup.hide()
+            self.popup.deleteLater()
+            self.popup = None
 
 
     def Login(self):

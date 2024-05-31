@@ -15,9 +15,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
-    QLineEdit, QMainWindow, QPushButton, QSizePolicy,
-    QSpacerItem, QStackedWidget, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QHBoxLayout,
+    QLabel, QLineEdit, QMainWindow, QPushButton,
+    QSizePolicy, QSpacerItem, QStackedWidget, QVBoxLayout,
+    QWidget)
 import files_rc
 
 class Ui_MainWindow(object):
@@ -636,35 +637,12 @@ class Ui_MainWindow(object):
         self.frame_extra_menus.setSizePolicy(sizePolicy3)
         self.frame_extra_menus.setFrameShape(QFrame.NoFrame)
         self.frame_extra_menus.setFrameShadow(QFrame.Raised)
-        self.layout_menu_bottom = QVBoxLayout(self.frame_extra_menus)
-        self.layout_menu_bottom.setSpacing(10)
-        self.layout_menu_bottom.setObjectName(u"layout_menu_bottom")
-        self.layout_menu_bottom.setContentsMargins(0, 0, 0, 25)
-        self.label_user_icon = QLabel(self.frame_extra_menus)
-        self.label_user_icon.setObjectName(u"label_user_icon")
-        sizePolicy4 = QSizePolicy(QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Maximum)
-        sizePolicy4.setHorizontalStretch(0)
-        sizePolicy4.setVerticalStretch(0)
-        sizePolicy4.setHeightForWidth(self.label_user_icon.sizePolicy().hasHeightForWidth())
-        self.label_user_icon.setSizePolicy(sizePolicy4)
-        self.label_user_icon.setMinimumSize(QSize(60, 60))
-        self.label_user_icon.setMaximumSize(QSize(60, 60))
-        font4 = QFont()
-        font4.setFamilies([u"Segoe UI"])
-        font4.setPointSize(12)
-        self.label_user_icon.setFont(font4)
-        self.label_user_icon.setStyleSheet(u"QLabel {\n"
-"	border-radius: 30px;\n"
-"	color:black;\n"
-"	font-style:bold;\n"
-"	background-color:#6272A4;\n"
-"	border: 5px solid #1C212F;\n"
-"	background-position: center;\n"
-"	background-repeat: no-repeat;\n"
-"}")
-        self.label_user_icon.setAlignment(Qt.AlignCenter)
+        self.verticalLayout_12 = QVBoxLayout(self.frame_extra_menus)
+        self.verticalLayout_12.setObjectName(u"verticalLayout_12")
+        self.comboBox_2 = QComboBox(self.frame_extra_menus)
+        self.comboBox_2.setObjectName(u"comboBox_2")
 
-        self.layout_menu_bottom.addWidget(self.label_user_icon, 0, Qt.AlignHCenter)
+        self.verticalLayout_12.addWidget(self.comboBox_2)
 
 
         self.verticalLayout_5.addWidget(self.frame_extra_menus, 0, Qt.AlignBottom)
@@ -697,27 +675,27 @@ class Ui_MainWindow(object):
         self.label_6 = QLabel(self.page_home)
         self.label_6.setObjectName(u"label_6")
         self.label_6.setGeometry(QRect(9, 9, 153, 70))
-        font5 = QFont()
-        font5.setFamilies([u"Segoe UI"])
-        font5.setPointSize(40)
-        self.label_6.setFont(font5)
+        font4 = QFont()
+        font4.setFamilies([u"Segoe UI"])
+        font4.setPointSize(40)
+        self.label_6.setFont(font4)
         self.label_6.setStyleSheet(u"")
         self.label_6.setAlignment(Qt.AlignCenter)
         self.label = QLabel(self.page_home)
         self.label.setObjectName(u"label")
         self.label.setGeometry(QRect(9, 205, 341, 26))
-        font6 = QFont()
-        font6.setFamilies([u"Segoe UI"])
-        font6.setPointSize(14)
-        self.label.setFont(font6)
+        font5 = QFont()
+        font5.setFamilies([u"Segoe UI"])
+        font5.setPointSize(14)
+        self.label.setFont(font5)
         self.label.setAlignment(Qt.AlignCenter)
         self.label_7 = QLabel(self.page_home)
         self.label_7.setObjectName(u"label_7")
         self.label_7.setGeometry(QRect(9, 401, 110, 27))
-        font7 = QFont()
-        font7.setFamilies([u"Segoe UI"])
-        font7.setPointSize(15)
-        self.label_7.setFont(font7)
+        font6 = QFont()
+        font6.setFamilies([u"Segoe UI"])
+        font6.setPointSize(15)
+        self.label_7.setFont(font6)
         self.label_7.setAlignment(Qt.AlignCenter)
         self.stackedWidget.addWidget(self.page_home)
         self.page_widgets = QWidget()
@@ -742,7 +720,7 @@ class Ui_MainWindow(object):
         self.label_logo = QLabel(self.widget_UnlockWelcome)
         self.label_logo.setObjectName(u"label_logo")
         self.label_logo.setGeometry(QRect(150, 10, 575, 94))
-        self.label_logo.setFont(font5)
+        self.label_logo.setFont(font4)
         self.label_logo.setStyleSheet(u"color:rgba(30, 136, 229, 255);")
         self.label_logo.setAlignment(Qt.AlignCenter)
 
@@ -920,30 +898,34 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_7.addWidget(self.label_credits)
 
-        self.label_version = QLabel(self.frame_label_bottom)
-        self.label_version.setObjectName(u"label_version")
-        self.label_version.setMaximumSize(QSize(100, 16777215))
-        self.label_version.setFont(font2)
-        self.label_version.setStyleSheet(u"color: black;")
-        self.label_version.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
-
-        self.horizontalLayout_7.addWidget(self.label_version)
-
 
         self.horizontalLayout_6.addWidget(self.frame_label_bottom)
 
-        self.frame_size_grip = QFrame(self.frame_grip)
-        self.frame_size_grip.setObjectName(u"frame_size_grip")
-        self.frame_size_grip.setMaximumSize(QSize(20, 20))
-        self.frame_size_grip.setStyleSheet(u"QSizeGrip {\n"
+        self.frame_popup = QFrame(self.frame_grip)
+        self.frame_popup.setObjectName(u"frame_popup")
+        self.frame_popup.setMaximumSize(QSize(120, 20))
+        self.frame_popup.setStyleSheet(u"QSizeGrip {\n"
 "	background-image: url(:/16x16/icons/16x16/cil-size-grip.png);\n"
 "	background-position: center;\n"
 "	background-repeat: no-reperat;\n"
 "}")
-        self.frame_size_grip.setFrameShape(QFrame.NoFrame)
-        self.frame_size_grip.setFrameShadow(QFrame.Raised)
+        self.frame_popup.setFrameShape(QFrame.NoFrame)
+        self.frame_popup.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_13 = QHBoxLayout(self.frame_popup)
+        self.horizontalLayout_13.setSpacing(0)
+        self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
+        self.horizontalLayout_13.setContentsMargins(0, 0, 0, 0)
+        self.label_version_2 = QLabel(self.frame_popup)
+        self.label_version_2.setObjectName(u"label_version_2")
+        self.label_version_2.setMaximumSize(QSize(100, 16777215))
+        self.label_version_2.setFont(font2)
+        self.label_version_2.setStyleSheet(u"color: black;")
+        self.label_version_2.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
-        self.horizontalLayout_6.addWidget(self.frame_size_grip)
+        self.horizontalLayout_13.addWidget(self.label_version_2)
+
+
+        self.horizontalLayout_6.addWidget(self.frame_popup)
 
 
         self.verticalLayout_4.addWidget(self.frame_grip)
@@ -988,7 +970,6 @@ class Ui_MainWindow(object):
         self.btn_close.setText("")
         self.label_top_info_1.setText(QCoreApplication.translate("MainWindow", u"C:\\Program Files\\Blender Foundation\\Blender 2.82", None))
         self.label_top_info_2.setText(QCoreApplication.translate("MainWindow", u"| HOME", None))
-        self.label_user_icon.setText(QCoreApplication.translate("MainWindow", u"WM", None))
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"HOME", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Empyt Page - By: Wanderson M. Pimenta", None))
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"Page Index 0", None))
@@ -997,7 +978,7 @@ class Ui_MainWindow(object):
         self.button_Unlock.setText(QCoreApplication.translate("MainWindow", u"Unlock", None))
         self.button_createPW.setText(QCoreApplication.translate("MainWindow", u"Create Password", None))
         self.button_resetPW.setText(QCoreApplication.translate("MainWindow", u"Reset", None))
-        self.label_credits.setText(QCoreApplication.translate("MainWindow", u"Registered by: Wanderson M. Pimenta", None))
-        self.label_version.setText(QCoreApplication.translate("MainWindow", u"v1.0.0", None))
+        self.label_credits.setText(QCoreApplication.translate("MainWindow", u"Synarix", None))
+        self.label_version_2.setText(QCoreApplication.translate("MainWindow", u"v1.0.0", None))
     # retranslateUi
 

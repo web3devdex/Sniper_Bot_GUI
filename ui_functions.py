@@ -1,5 +1,5 @@
 ## ==> GUI FILE
-from main import *
+from gui import *
 
 ## ==> GLOBALS
 GLOBAL_STATE = 0
@@ -8,18 +8,12 @@ GLOBAL_TITLE_BAR = True
 ## ==> COUT INITIAL MENU
 count = 1
 
-class UIFunctions(MainWindow):
+class UIFunctions(QMainWindow):
 
     ## ==> GLOBALS
     GLOBAL_STATE = 0
     GLOBAL_TITLE_BAR = True
 
-    ########################################################################
-    ## START - GUI FUNCTIONS
-    ########################################################################
-
-    ## ==> MAXIMIZE/RESTORE
-    ########################################################################
     def maximize_restore(self):
         global GLOBAL_STATE
         status = GLOBAL_STATE
@@ -209,7 +203,7 @@ class UIFunctions(MainWindow):
         self.ui.frame_main.setGraphicsEffect(self.shadow)
 
         ## ==> RESIZE WINDOW
-        self.sizegrip = QSizeGrip(self.ui.frame_size_grip)
+        self.sizegrip = QSizeGrip(self.ui.frame_grip)
         self.sizegrip.setStyleSheet("width: 20px; height: 20px; margin 0px; padding: 0px;")
 
         ### ==> MINIMIZE
@@ -220,7 +214,6 @@ class UIFunctions(MainWindow):
 
         ## SHOW ==> CLOSE APPLICATION
         self.ui.btn_close.clicked.connect(lambda: self.close())
-
 
 
     def show_incorrect_animation(self, component):

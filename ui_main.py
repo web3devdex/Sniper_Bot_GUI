@@ -140,7 +140,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_7 = QVBoxLayout(self.centralwidget)
         self.verticalLayout_7.setSpacing(0)
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
-        self.verticalLayout_7.setContentsMargins(10, 10, 10, 10)
+        self.verticalLayout_7.setContentsMargins(0, 0, 0, 0)
         self.frame_main = QFrame(self.centralwidget)
         self.frame_main.setObjectName(u"frame_main")
         self.frame_main.setStyleSheet(u"\n"
@@ -616,10 +616,10 @@ class Ui_MainWindow(object):
         self.frame_left_menu.setStyleSheet(u"background-color:#2D354C;")
         self.frame_left_menu.setFrameShape(QFrame.NoFrame)
         self.frame_left_menu.setFrameShadow(QFrame.Raised)
-        self.verticalLayout_5 = QVBoxLayout(self.frame_left_menu)
-        self.verticalLayout_5.setSpacing(1)
-        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
-        self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_12 = QVBoxLayout(self.frame_left_menu)
+        self.verticalLayout_12.setSpacing(0)
+        self.verticalLayout_12.setObjectName(u"verticalLayout_12")
+        self.verticalLayout_12.setContentsMargins(0, 0, 0, 0)
         self.frame_menus = QFrame(self.frame_left_menu)
         self.frame_menus.setObjectName(u"frame_menus")
         self.frame_menus.setFrameShape(QFrame.NoFrame)
@@ -629,23 +629,40 @@ class Ui_MainWindow(object):
         self.layout_menus.setObjectName(u"layout_menus")
         self.layout_menus.setContentsMargins(0, 0, 0, 0)
 
-        self.verticalLayout_5.addWidget(self.frame_menus, 0, Qt.AlignTop)
+        self.verticalLayout_12.addWidget(self.frame_menus)
 
-        self.frame_extra_menus = QFrame(self.frame_left_menu)
-        self.frame_extra_menus.setObjectName(u"frame_extra_menus")
-        sizePolicy3.setHeightForWidth(self.frame_extra_menus.sizePolicy().hasHeightForWidth())
-        self.frame_extra_menus.setSizePolicy(sizePolicy3)
-        self.frame_extra_menus.setFrameShape(QFrame.NoFrame)
-        self.frame_extra_menus.setFrameShadow(QFrame.Raised)
-        self.verticalLayout_12 = QVBoxLayout(self.frame_extra_menus)
-        self.verticalLayout_12.setObjectName(u"verticalLayout_12")
-        self.comboBox_2 = QComboBox(self.frame_extra_menus)
-        self.comboBox_2.setObjectName(u"comboBox_2")
+        self.frame_menus_bottom = QFrame(self.frame_left_menu)
+        self.frame_menus_bottom.setObjectName(u"frame_menus_bottom")
+        sizePolicy3.setHeightForWidth(self.frame_menus_bottom.sizePolicy().hasHeightForWidth())
+        self.frame_menus_bottom.setSizePolicy(sizePolicy3)
+        self.frame_menus_bottom.setFrameShape(QFrame.NoFrame)
+        self.frame_menus_bottom.setFrameShadow(QFrame.Raised)
+        self.layout_menu_bottom = QVBoxLayout(self.frame_menus_bottom)
+        self.layout_menu_bottom.setSpacing(0)
+        self.layout_menu_bottom.setObjectName(u"layout_menu_bottom")
+        self.layout_menu_bottom.setContentsMargins(0, 0, 0, 0)
 
-        self.verticalLayout_12.addWidget(self.comboBox_2)
+        self.verticalLayout_12.addWidget(self.frame_menus_bottom)
+
+        self.widget_quickChange = QWidget(self.frame_left_menu)
+        self.widget_quickChange.setObjectName(u"widget_quickChange")
+        self.widget_quickChange.setMinimumSize(QSize(0, 40))
+        self.widget_quickChange.setMaximumSize(QSize(16777215, 45))
+        self.widget_quickChange.setLayoutDirection(Qt.LeftToRight)
+        self.horizontalLayout_14 = QHBoxLayout(self.widget_quickChange)
+        self.horizontalLayout_14.setSpacing(4)
+        self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
+        self.horizontalLayout_14.setContentsMargins(4, 4, 4, 4)
+        self.comboBox_ChainID = QComboBox(self.widget_quickChange)
+        self.comboBox_ChainID.setObjectName(u"comboBox_ChainID")
+        self.comboBox_ChainID.setMinimumSize(QSize(0, 35))
+        self.comboBox_ChainID.setMaximumSize(QSize(55, 30))
+        self.comboBox_ChainID.setLayoutDirection(Qt.LeftToRight)
+
+        self.horizontalLayout_14.addWidget(self.comboBox_ChainID)
 
 
-        self.verticalLayout_5.addWidget(self.frame_extra_menus, 0, Qt.AlignBottom)
+        self.verticalLayout_12.addWidget(self.widget_quickChange)
 
 
         self.horizontalLayout_2.addWidget(self.frame_left_menu)
@@ -882,7 +899,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_6 = QHBoxLayout(self.frame_grip)
         self.horizontalLayout_6.setSpacing(0)
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
-        self.horizontalLayout_6.setContentsMargins(0, 0, 2, 0)
+        self.horizontalLayout_6.setContentsMargins(0, 0, 0, 0)
         self.frame_label_bottom = QFrame(self.frame_grip)
         self.frame_label_bottom.setObjectName(u"frame_label_bottom")
         self.frame_label_bottom.setFrameShape(QFrame.NoFrame)
@@ -926,6 +943,18 @@ class Ui_MainWindow(object):
 
 
         self.horizontalLayout_6.addWidget(self.frame_popup)
+
+        self.frame_size_grip = QFrame(self.frame_grip)
+        self.frame_size_grip.setObjectName(u"frame_size_grip")
+        self.frame_size_grip.setMaximumSize(QSize(20, 20))
+        self.frame_size_grip.setStyleSheet(u"background-image: url(:/16x16/icons/16x16/cil-size-grip.png);\n"
+"background-position: center;\n"
+"background-repeat: no-reperat;\n"
+"")
+        self.frame_size_grip.setFrameShape(QFrame.NoFrame)
+        self.frame_size_grip.setFrameShadow(QFrame.Raised)
+
+        self.horizontalLayout_6.addWidget(self.frame_size_grip)
 
 
         self.verticalLayout_4.addWidget(self.frame_grip)

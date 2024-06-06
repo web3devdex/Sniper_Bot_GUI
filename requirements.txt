@@ -1,3 +1,6 @@
 PySide6
 requests
 cryptography
+mnemonic
+bip44
+web3

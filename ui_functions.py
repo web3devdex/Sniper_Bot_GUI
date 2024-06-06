@@ -8,8 +8,8 @@ GLOBAL_TITLE_BAR = True
 ## ==> COUT INITIAL MENU
 count = 1
 
-popup_width = 130
-popup_height = 50
+popup_width = 200
+popup_height = 60
 
 
 class UIFunctions(QMainWindow):
@@ -20,6 +20,28 @@ class UIFunctions(QMainWindow):
     popup = None
     animation_in = None
     animation_out = None
+    
+    def connectButtons(self):
+        #UnlockPage:
+        self.ui.button_Unlock.clicked.connect(self.unlockWallet)
+        self.ui.button_createPW.clicked.connect(self.Button)
+        self.ui.button_resetPW.clicked.connect(self.Button)
+        self.ui.button_create_password_cancel.clicked.connect(self.Button)
+        self.ui.button_create_password_submit.clicked.connect(self.Button)
+        self.ui.button_reset_password_cancel.clicked.connect(self.Button)
+        self.ui.button_reset_password_submit.clicked.connect(self.Button)
+        self.ui.button_reset_password_submit_go.clicked.connect(self.Button)
+        self.ui.button_reset_password_submit_reset.clicked.connect(self.Button)
+        self.ui.lineEdit_UnlockPwd.returnPressed.connect(self.unlockWallet)
+        
+        #ImportWalletPage:
+        self.ui.button_import_wallet.clicked.connect(self.Button)
+        self.ui.pushButton_add_wallet.clicked.connect(self.Button)
+        self.ui.button_create_new_wallet.clicked.connect(self.Button)
+        self.ui.button_add_wallet_cancel.clicked.connect(self.Button)
+        self.ui.button_add_wallet_done.clicked.connect(self.Button)
+        self.ui.button_import_wallet_key.clicked.connect(self.Button)
+        self.ui.comboBox_ChainID.currentIndexChanged.connect(self.Button)
 
     def maximize_restore(self):
         global GLOBAL_STATE
@@ -146,7 +168,6 @@ class UIFunctions(QMainWindow):
                     250, lambda: UIFunctions.maximize_restore(self)
                 )
 
-        ## REMOVE ==> STANDARD TITLE BAR
         if GLOBAL_TITLE_BAR:
             self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
             self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
@@ -168,81 +189,125 @@ class UIFunctions(QMainWindow):
         self.shadow.setYOffset(0)
         self.shadow.setColor(QColor(0, 0, 0, 150))
         self.ui.frame_main.setGraphicsEffect(self.shadow)
-
-        ## ==> RESIZE WINDOW
-        self.sizegrip = QSizeGrip(self.ui.frame_grip)
-        self.sizegrip.setStyleSheet(
-            "width: 20px; height: 20px; margin 0px; padding: 0px;"
-        )
-
-        ### ==> MINIMIZE
+        self.sizegrip = QSizeGrip(self.ui.frame_size_grip)
+        self.sizegrip.setStyleSheet("width: 20px; height: 20px; margin 0px; padding: 0px;")
         self.ui.btn_minimize.clicked.connect(lambda: self.showMinimized())
-
-        ## ==> MAXIMIZE/RESTORE
         self.ui.btn_maximize_restore.clicked.connect(
             lambda: UIFunctions.maximize_restore(self)
         )
-
-        ## SHOW ==> CLOSE APPLICATION
         self.ui.btn_close.clicked.connect(lambda: self.close())
+        
+    
+
+    def createPassword(self, password0, password1):
+        if str(password0) == str(password1):
+            if len(str(password0)) > 6:
+                self.encryption.encrypt(self.settings.settings["cache:refferenceClear"], password0)
+                encrypted_text = self.encryption.encrypt(self.settings.settings["cache:refferenceClear"], password0)
+                self.settings.updateSetting("cache:refferenceHash", encrypted_text)
+                UIFunctions.show_popup(self.ui.frame_popup,"Success!", "green")
+                self.unlockPage()
+            else:
+                UIFunctions.show_incorrect_animation(self, self.ui.lineEdit_repeat_password)
+                UIFunctions.show_incorrect_animation(self, self.ui.lineEdit_create_password)
+                UIFunctions.show_popup(self.ui.frame_popup,"Min Length 6", "red") 
+        else:
+            UIFunctions.show_incorrect_animation(self, self.ui.lineEdit_create_password)
+            UIFunctions.show_popup(self.ui.frame_popup,"Password not matching", "red")
+            
+            
+    def verify_password(self, entered_password):
+        stored_clear = self.settings.settings["cache:refferenceClear"]
+        stored_hash = self.settings.settings["cache:refferenceHash"]
+        
+        print(stored_hash)
+        if stored_hash == "":
+                UIFunctions.show_incorrect_animation(self, self.ui.button_createPW)
+                UIFunctions.show_popup(self.ui.frame_popup, "First create password", "red")
+                return False
+        try:
+            test_hash = self.encryption.decrypt(self.settings.settings["cache:refferenceHash"], entered_password)
+            if test_hash == stored_clear:
+                self.encryption.generate_masterkey(str(entered_password).encode())
+                self.ui.lineEdit_UnlockPwd.clear()
+                return True
+            else:
+                return False
+        except Exception as e:
+            print(e)
+            UIFunctions.show_incorrect_animation(self, self.ui.lineEdit_UnlockPwd)
+            UIFunctions.show_popup(self.ui.frame_popup,"Wrong Password", "red")
+            return False 
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    def populate_chain_combobox(self):
+        chains = self.chain_instance.get_supported_chains()
+        preferred_chain_id = self.settings.settings.get("cache:ChainID", None)
+        preferred_chain_data = None
+        for chain in chains:
+            if chain["ChainID"] == preferred_chain_id:
+                preferred_chain_data = chain
+                break
+        if preferred_chain_data:
+            pixmap = QPixmap()
+            pixmap.loadFromData(preferred_chain_data["LogoBase64"])
+            icon = QIcon(pixmap)
+            self.ui.comboBox_ChainID.addItem(preferred_chain_data["ShortName"], preferred_chain_data["ChainID"])
+            self.ui.comboBox_ChainID.setItemIcon(0, icon)
+        for chain in chains:
+            if chain["ChainID"] != preferred_chain_id:
+                pixmap = QPixmap()
+                pixmap.loadFromData(chain["LogoBase64"])
+                icon = QIcon(pixmap)
+                self.ui.comboBox_ChainID.addItem(chain["ShortName"], chain["ChainID"])
+                self.ui.comboBox_ChainID.setItemIcon(self.ui.comboBox_ChainID.count() - 1, icon)
+        if preferred_chain_data:
+            self.ui.comboBox_ChainID.setCurrentIndex(0)
+
+
 
     def show_incorrect_animation(self, component):
         original_geometry = component.geometry()
-        animation = QPropertyAnimation(component, b"geometry")
-        animation.setDuration(500)
         original_style = component.styleSheet()
-        keyframes = [
-            (0.0, original_geometry),
-            (
-                0.1,
-                QRect(
-                    original_geometry.x() - 10,
+        animation = QPropertyAnimation(component, b"geometry")
+        animation.setDuration(500)  # Extends the animation duration to 2 seconds
+        movements = [-10, 10] * 5  # Repeated movements for dynamic effect
+        num_moves = len(movements)
+        for i, offset in enumerate(movements):
+            # Correctly set keyframes within the range [0.0, 1.0]
+            step = (i + 1) / num_moves
+            if step < 1.0:  # Ensure that we do not exceed the 1.0 limit
+                new_rect = QRect(
+                    original_geometry.x() + offset,
                     original_geometry.y(),
                     original_geometry.width(),
-                    original_geometry.height(),
-                ),
-            ),
-            (
-                0.2,
-                QRect(
-                    original_geometry.x() + 10,
-                    original_geometry.y(),
-                    original_geometry.width(),
-                    original_geometry.height(),
-                ),
-            ),
-            (
-                0.3,
-                QRect(
-                    original_geometry.x() - 10,
-                    original_geometry.y(),
-                    original_geometry.width(),
-                    original_geometry.height(),
-                ),
-            ),
-            (
-                0.4,
-                QRect(
-                    original_geometry.x() + 10,
-                    original_geometry.y(),
-                    original_geometry.width(),
-                    original_geometry.height(),
-                ),
-            ),
-            (0.5, original_geometry),
-        ]
-        for kf in keyframes:
-            animation.setKeyValueAt(kf[0], kf[1])
+                    original_geometry.height()
+                )
+                animation.setKeyValueAt(step, new_rect)
+
+        # Ensure the final position is the original geometry
         animation.setEndValue(original_geometry)
+        component.setStyleSheet(component.styleSheet() + "border: 2px solid red;")
         animation_group = QSequentialAnimationGroup(self)
         animation_group.addAnimation(animation)
-        component.setStyleSheet(original_style + "border: 2px solid red;")
         animation_group.start()
-
         def reset_style():
-            self.ui.lineEdit_UnlockPwd.setStyleSheet(original_style)
-
-        QTimer.singleShot(500, reset_style)
+            component.setStyleSheet(original_style)
+        QTimer.singleShot(3000, reset_style)
         self.animation_group = animation_group
 
     @staticmethod
@@ -250,6 +315,8 @@ class UIFunctions(QMainWindow):
         if UIFunctions.popup is not None:
             UIFunctions.remove_popup()
         UIFunctions.popup = Popup(message, color, parent)
+        orginal_style = UIFunctions.popup.styleSheet()
+        UIFunctions.popup.setStyleSheet(orginal_style +"font-weight: bold;" )
         popup_x_center = (parent.width() - popup_width) // 2
         popup_y_center = (parent.height() - popup_height) // 2
         start_rect = QRect(popup_x_center, popup_y_center, popup_width, popup_height)
@@ -260,22 +327,28 @@ class UIFunctions(QMainWindow):
 
     @staticmethod
     def animate_popup_in(widget, parent):
+        if not widget.isVisible():
+            widget.show()
+        widget.raise_()
         UIFunctions.animation_in = QPropertyAnimation(widget, b"geometry")
-        UIFunctions.animation_in.setDuration(1000)
+        UIFunctions.animation_in.setDuration(600) 
+        popup_width = widget.width()
+        popup_height = widget.height()
         popup_x_center = (parent.width() - popup_width) // 2
         popup_y_center = (parent.height() - popup_height) // 2
         end_rect = QRect(popup_x_center, popup_y_center, popup_width, popup_height)
-        UIFunctions.animation_in.setStartValue(widget.geometry())
+        start_rect = QRect(parent.width(), popup_y_center, popup_width, popup_height) 
+        UIFunctions.animation_in.setStartValue(start_rect)
         UIFunctions.animation_in.setEndValue(end_rect)
         UIFunctions.animation_in.start()
-
+        
     @staticmethod
     def animate_popup_out():
         if UIFunctions.popup:
             UIFunctions.animation_out = QPropertyAnimation(
                 UIFunctions.popup, b"geometry"
             )
-            UIFunctions.animation_out.setDuration(1000)
+            UIFunctions.animation_out.setDuration(600)
             popup_x_end = UIFunctions.popup.parent().width()
             end_rect = QRect(
                 popup_x_end,

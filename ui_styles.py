@@ -25,6 +25,8 @@ class Style():
         border: none;
         border-left: 28px solid rgb(80, 94, 134);
         background-color: rgb(80, 94, 134);
+        border-top-left-radius: 15px;
+        border-bottom-left-radius: 15px;
         text-align: left;
         padding-left: 45px;
     }
@@ -37,6 +39,8 @@ class Style():
         border-left: 28px solid rgb(80, 94, 134);
         background-color: rgb(80, 94, 134);
         text-align: left;
+        border-top-left-radius: 20%;
+        border-bottom-left-radius: 20%;
         padding-left: 45px;
     }
     

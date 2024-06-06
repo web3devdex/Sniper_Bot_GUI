@@ -10,8 +10,6 @@ from ui_styles import Style
 ## ==> SPLASH SCREEN
 from ui_splash_screen import Ui_SplashScreen
 
-## ==> MAIN WINDOW
-from ui_main import Ui_MainWindow
 
 ## ==> GLOBALS
 counter = 0
@@ -26,15 +24,7 @@ print(f"Python Directory: {python_executable}")
 print('System: ' + platform.system())
 print('Version: ' + platform.release())
 
-# YOUR APPLICATION
-class MainWindow(QMainWindow):
-    def __init__(self):
-        QMainWindow.__init__(self)
-        self.ui = Ui_MainWindow()
-        self.ui.setupUi(self)
-        
 
-# SPLASH SCREEN
 class SplashScreen(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
@@ -55,19 +45,11 @@ class SplashScreen(QMainWindow):
         self.shadow.setYOffset(0)
         self.shadow.setColor(QColor(0, 0, 0, 60))
         self.ui.dropShadowFrame.setGraphicsEffect(self.shadow)
-
-        ## QTIMER ==> START
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.progress)
-        # TIMER IN MILLISECONDS
-
-        # CHANGE DESCRIPTION
-
-        # Initial Text
         self.ui.label_description.setText("<strong>WELCOME</strong>")
-        # Change Texts
-        ## SHOW ==> MAIN WINDOW
-        ########################################################################
+
+
         self.show()
         self.timer.start(100)
         ## ==> END ##
@@ -126,7 +108,6 @@ class SplashScreen(QMainWindow):
             print(e)
 
     def progress(self):
-
         if self.counter < 10:
             self.ui.label_description.setText("<strong>Initialized</strong>")
             self.check_version()
@@ -138,16 +119,11 @@ class SplashScreen(QMainWindow):
             self.counter = 90
             self.ui.progressBar.setValue(self.counter)
 
-        # CLOSE SPLASH SCREEN AND OPEN APP
         if self.counter > 100:
-            # STOP TIMER
             self.timer.stop()
-            # SHOW MAIN WINDOW (placeholder for actual main window class)
             self.close()
-            ## ADD SYSTEM CHECK AND USE currect path
             subprocess.run([python_executable, os.path.join(script_dir, 'gui.py')])
 
-        # INCREASE COUNTER
         if self.counter > 24:
             self.counter += 1
         self.ui.progressBar.setValue(self.counter)

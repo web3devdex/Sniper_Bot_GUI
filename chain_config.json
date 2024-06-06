@@ -1,0 +1,24 @@
+{
+    "56": {
+        "RixSwapOracle": "0x0000000000000000000000000000000000000000",
+        "WETH": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+        "Name": "Binance Smart Chain",
+        "ShortName": "BSC",
+        "LogoURI": "https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png",
+        "RPC": "https://bsc-dataseed.binance.org/",
+        "NativeName": "Binance Coin",
+        "NativeSymbol": "BNB"
+    },
+
+    "137": {
+        "RixSwapOracle": "0x0000000000000000000000000000000000000000",
+        "WETH": "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
+        "Name": "Polygon",
+        "ShortName": "Matic",
+        "LogoURI": "https://s2.coinmarketcap.com/static/img/coins/64x64/3890.png",
+        "RPC": "https://polygon-rpc.com/",
+        "NativeName": "Matic Token",
+        "NativeSymbol": "MATIC"
+    }
+    
+}

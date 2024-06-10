@@ -42,7 +42,9 @@ class Encryption:
         cipher = Cipher(algorithms.AES(key), modes.CBC(iv), backend=default_backend())
         encryptor = cipher.encryptor()
         padder = padding.PKCS7(128).padder()
-        padded_data = padder.update(plaintext.encode()) + padder.finalize()
+        if not isinstance(plaintext, bytes):
+            plaintext = plaintext.encode()
+        padded_data = padder.update(plaintext) + padder.finalize()
         ciphertext = encryptor.update(padded_data) + encryptor.finalize()
         h = hmac.HMAC(key, hashes.SHA256(), backend=default_backend())
         h.update(iv + ciphertext)

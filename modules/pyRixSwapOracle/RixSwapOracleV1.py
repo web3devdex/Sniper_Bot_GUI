@@ -13,6 +13,7 @@ class interfaceWeb3:
             self.address, self.key = self.settings["wallets"][0]["address"], self.settings["wallets"][0]["key"]
         except:
             self.address, self.key = None, None
+            
         self.chain_mod = chain_mod
         self.initChain()
         self.initProvider()

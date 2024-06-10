@@ -4,3 +4,5 @@ cryptography
 mnemonic
 bip44
 web3
+qrcode
+pillow

@@ -17,8 +17,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QHBoxLayout,
     QLabel, QLineEdit, QMainWindow, QPlainTextEdit,
-    QPushButton, QSizePolicy, QSpacerItem, QStackedWidget,
-    QVBoxLayout, QWidget)
+    QPushButton, QScrollArea, QSizePolicy, QSpacerItem,
+    QStackedWidget, QTextEdit, QVBoxLayout, QWidget)
 import files_rc
 
 class Ui_MainWindow(object):
@@ -718,58 +718,55 @@ class Ui_MainWindow(object):
         self.widget_11 = QWidget(self.page_wallet)
         self.widget_11.setObjectName(u"widget_11")
         self.verticalLayout_27 = QVBoxLayout(self.widget_11)
+        self.verticalLayout_27.setSpacing(0)
         self.verticalLayout_27.setObjectName(u"verticalLayout_27")
+        self.verticalLayout_27.setContentsMargins(0, 0, 0, 0)
         self.widget_17 = QWidget(self.widget_11)
         self.widget_17.setObjectName(u"widget_17")
+        self.widget_17.setContextMenuPolicy(Qt.PreventContextMenu)
+        self.widget_17.setStyleSheet(u"background-color:transparent;")
+        self.verticalLayout_35 = QVBoxLayout(self.widget_17)
+        self.verticalLayout_35.setObjectName(u"verticalLayout_35")
+        self.verticalLayout_35.setContentsMargins(0, 0, 0, 0)
         self.widget_19 = QWidget(self.widget_17)
         self.widget_19.setObjectName(u"widget_19")
-        self.widget_19.setGeometry(QRect(80, 100, 701, 141))
-        self.horizontalLayout_22 = QHBoxLayout(self.widget_19)
-        self.horizontalLayout_22.setObjectName(u"horizontalLayout_22")
-        self.horizontalLayout_22.setContentsMargins(0, 0, 0, 0)
-        self.horizontalSpacer_7 = QSpacerItem(242, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.horizontalLayout_22.addItem(self.horizontalSpacer_7)
-
-        self.widget_qr_address = QWidget(self.widget_19)
-        self.widget_qr_address.setObjectName(u"widget_qr_address")
-        self.widget_qr_address.setMinimumSize(QSize(200, 100))
-
-        self.horizontalLayout_22.addWidget(self.widget_qr_address)
-
-        self.horizontalSpacer_11 = QSpacerItem(241, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.horizontalLayout_22.addItem(self.horizontalSpacer_11)
-
-        self.widget_20 = QWidget(self.widget_17)
+        self.verticalLayout_38 = QVBoxLayout(self.widget_19)
+        self.verticalLayout_38.setSpacing(0)
+        self.verticalLayout_38.setObjectName(u"verticalLayout_38")
+        self.verticalLayout_38.setContentsMargins(0, 0, 0, 0)
+        self.widget_20 = QWidget(self.widget_19)
         self.widget_20.setObjectName(u"widget_20")
-        self.widget_20.setGeometry(QRect(30, 10, 793, 41))
+        self.widget_20.setMaximumSize(QSize(16777215, 45))
         self.horizontalLayout_23 = QHBoxLayout(self.widget_20)
         self.horizontalLayout_23.setSpacing(4)
         self.horizontalLayout_23.setObjectName(u"horizontalLayout_23")
-        self.horizontalLayout_23.setContentsMargins(0, 0, 0, 0)
-        self.horizontalSpacer_12 = QSpacerItem(272, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_23.setContentsMargins(0, 9, 0, 0)
+        self.horizontalSpacer_12 = QSpacerItem(203, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_23.addItem(self.horizontalSpacer_12)
 
-        self.label = QLabel(self.widget_20)
-        self.label.setObjectName(u"label")
-        self.label.setStyleSheet(u"font: bold;\n"
-"color: black;")
+        self.widget_26 = QWidget(self.widget_20)
+        self.widget_26.setObjectName(u"widget_26")
+        self.horizontalLayout_22 = QHBoxLayout(self.widget_26)
+        self.horizontalLayout_22.setSpacing(0)
+        self.horizontalLayout_22.setObjectName(u"horizontalLayout_22")
+        self.horizontalLayout_22.setContentsMargins(0, 0, 0, 0)
+        self.label_wallet_address = QTextEdit(self.widget_26)
+        self.label_wallet_address.setObjectName(u"label_wallet_address")
+        self.label_wallet_address.setMinimumSize(QSize(410, 0))
+        self.label_wallet_address.viewport().setProperty("cursor", QCursor(Qt.IBeamCursor))
+        self.label_wallet_address.setStyleSheet(u"border:transparent;")
+        self.label_wallet_address.setReadOnly(True)
 
-        self.horizontalLayout_23.addWidget(self.label)
+        self.horizontalLayout_22.addWidget(self.label_wallet_address)
 
-        self.horizontalSpacer_13 = QSpacerItem(271, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.horizontalLayout_23.addItem(self.horizontalSpacer_13)
-
-        self.pushButton_AddWallet_2 = QPushButton(self.widget_20)
-        self.pushButton_AddWallet_2.setObjectName(u"pushButton_AddWallet_2")
-        self.pushButton_AddWallet_2.setMinimumSize(QSize(50, 25))
-        self.pushButton_AddWallet_2.setMaximumSize(QSize(16777215, 16777215))
-        self.pushButton_AddWallet_2.setFocusPolicy(Qt.WheelFocus)
-        self.pushButton_AddWallet_2.setLayoutDirection(Qt.LeftToRight)
-        self.pushButton_AddWallet_2.setStyleSheet(u"QPushButton {\n"
+        self.pushButton_copy_wallet_address = QPushButton(self.widget_26)
+        self.pushButton_copy_wallet_address.setObjectName(u"pushButton_copy_wallet_address")
+        self.pushButton_copy_wallet_address.setMinimumSize(QSize(50, 25))
+        self.pushButton_copy_wallet_address.setMaximumSize(QSize(16777215, 16777215))
+        self.pushButton_copy_wallet_address.setFocusPolicy(Qt.WheelFocus)
+        self.pushButton_copy_wallet_address.setLayoutDirection(Qt.LeftToRight)
+        self.pushButton_copy_wallet_address.setStyleSheet(u"QPushButton {\n"
 "	background-position: center;\n"
 "	background-repeat: no-reperat;\n"
 "	border:  rgb(27, 29, 35);\n"
@@ -784,13 +781,117 @@ class Ui_MainWindow(object):
 "	background-color: rgb(85, 170, 255);\n"
 "}")
 
-        self.horizontalLayout_23.addWidget(self.pushButton_AddWallet_2)
+        self.horizontalLayout_22.addWidget(self.pushButton_copy_wallet_address)
+
+
+        self.horizontalLayout_23.addWidget(self.widget_26)
+
+        self.horizontalSpacer_13 = QSpacerItem(203, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_23.addItem(self.horizontalSpacer_13)
+
+
+        self.verticalLayout_38.addWidget(self.widget_20)
+
+        self.widget_28 = QWidget(self.widget_19)
+        self.widget_28.setObjectName(u"widget_28")
+        self.widget_28.setMinimumSize(QSize(0, 250))
+        self.widget_28.setMaximumSize(QSize(16777215, 250))
+        self.horizontalLayout_29 = QHBoxLayout(self.widget_28)
+        self.horizontalLayout_29.setSpacing(0)
+        self.horizontalLayout_29.setObjectName(u"horizontalLayout_29")
+        self.horizontalLayout_29.setContentsMargins(0, 0, 0, 0)
+        self.horizontalSpacer_7 = QSpacerItem(312, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_29.addItem(self.horizontalSpacer_7)
+
+        self.widget_qr_address = QWidget(self.widget_28)
+        self.widget_qr_address.setObjectName(u"widget_qr_address")
+        self.widget_qr_address.setMinimumSize(QSize(200, 100))
+        self.verticalLayout_34 = QVBoxLayout(self.widget_qr_address)
+        self.verticalLayout_34.setSpacing(0)
+        self.verticalLayout_34.setObjectName(u"verticalLayout_34")
+        self.verticalLayout_34.setContentsMargins(0, 0, 0, 0)
+        self.label_qr_address = QLabel(self.widget_qr_address)
+        self.label_qr_address.setObjectName(u"label_qr_address")
+        self.label_qr_address.setMinimumSize(QSize(250, 250))
+        self.label_qr_address.setStyleSheet(u"border:transparent;")
+
+        self.verticalLayout_34.addWidget(self.label_qr_address)
+
+
+        self.horizontalLayout_29.addWidget(self.widget_qr_address)
+
+        self.horizontalSpacer_11 = QSpacerItem(312, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_29.addItem(self.horizontalSpacer_11)
+
+
+        self.verticalLayout_38.addWidget(self.widget_28)
+
+        self.widget_25 = QWidget(self.widget_19)
+        self.widget_25.setObjectName(u"widget_25")
+        self.widget_25.setMinimumSize(QSize(0, 50))
+        self.widget_25.setMaximumSize(QSize(16777215, 50))
+        self.horizontalLayout_28 = QHBoxLayout(self.widget_25)
+        self.horizontalLayout_28.setSpacing(4)
+        self.horizontalLayout_28.setObjectName(u"horizontalLayout_28")
+        self.horizontalLayout_28.setContentsMargins(0, 0, 0, 0)
+        self.horizontalSpacer_23 = QSpacerItem(201, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_28.addItem(self.horizontalSpacer_23)
+
+        self.widget_27 = QWidget(self.widget_25)
+        self.widget_27.setObjectName(u"widget_27")
+        self.verticalLayout_37 = QVBoxLayout(self.widget_27)
+        self.verticalLayout_37.setSpacing(0)
+        self.verticalLayout_37.setObjectName(u"verticalLayout_37")
+        self.verticalLayout_37.setContentsMargins(0, 0, 0, 0)
+        self.label = QLabel(self.widget_27)
+        self.label.setObjectName(u"label")
+        self.label.setMinimumSize(QSize(0, 25))
+
+        self.verticalLayout_37.addWidget(self.label)
+
+        self.label_6 = QLabel(self.widget_27)
+        self.label_6.setObjectName(u"label_6")
+
+        self.verticalLayout_37.addWidget(self.label_6)
+
+
+        self.horizontalLayout_28.addWidget(self.widget_27)
+
+        self.horizontalSpacer_30 = QSpacerItem(201, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_28.addItem(self.horizontalSpacer_30)
+
+
+        self.verticalLayout_38.addWidget(self.widget_25)
+
+
+        self.verticalLayout_35.addWidget(self.widget_19)
 
 
         self.verticalLayout_27.addWidget(self.widget_17)
 
         self.widget_16 = QWidget(self.widget_11)
         self.widget_16.setObjectName(u"widget_16")
+        self.verticalLayout_36 = QVBoxLayout(self.widget_16)
+        self.verticalLayout_36.setSpacing(0)
+        self.verticalLayout_36.setObjectName(u"verticalLayout_36")
+        self.verticalLayout_36.setContentsMargins(0, 0, 0, 0)
+        self.scrollArea_wallet_assets = QScrollArea(self.widget_16)
+        self.scrollArea_wallet_assets.setObjectName(u"scrollArea_wallet_assets")
+        self.scrollArea_wallet_assets.setStyleSheet(u"border:none;")
+        self.scrollArea_wallet_assets.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.scrollArea_wallet_assets.setWidgetResizable(True)
+        self.scrollArea_wallet_assets_widget = QWidget()
+        self.scrollArea_wallet_assets_widget.setObjectName(u"scrollArea_wallet_assets_widget")
+        self.scrollArea_wallet_assets_widget.setGeometry(QRect(0, 0, 866, 285))
+        self.scrollArea_wallet_assets.setWidget(self.scrollArea_wallet_assets_widget)
+
+        self.verticalLayout_36.addWidget(self.scrollArea_wallet_assets)
+
 
         self.verticalLayout_27.addWidget(self.widget_16)
 
@@ -829,10 +930,14 @@ class Ui_MainWindow(object):
 
         self.widget_Wallets = QWidget(self.widget_13)
         self.widget_Wallets.setObjectName(u"widget_Wallets")
+        self.layout_wallet_buttons = QVBoxLayout(self.widget_Wallets)
+        self.layout_wallet_buttons.setSpacing(5)
+        self.layout_wallet_buttons.setObjectName(u"layout_wallet_buttons")
+        self.layout_wallet_buttons.setContentsMargins(0, 0, 0, 0)
 
         self.verticalLayout_25.addWidget(self.widget_Wallets)
 
-        self.verticalSpacer = QSpacerItem(20, 552, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        self.verticalSpacer = QSpacerItem(20, 562, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
         self.verticalLayout_25.addItem(self.verticalSpacer)
 
@@ -1770,8 +1875,8 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(1)
-        self.stackedWidget_2.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget_2.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -1795,8 +1900,32 @@ class Ui_MainWindow(object):
         self.btn_close.setText("")
         self.label_top_info_1.setText(QCoreApplication.translate("MainWindow", u"C:\\Program Files\\Blender Foundation\\Blender 2.82", None))
         self.label_top_info_2.setText(QCoreApplication.translate("MainWindow", u"| HOME", None))
-        self.label.setText(QCoreApplication.translate("MainWindow", u"0x000000000000000000000000", None))
-        self.pushButton_AddWallet_2.setText(QCoreApplication.translate("MainWindow", u"COPY", None))
+        self.label_wallet_address.setHtml(QCoreApplication.translate("MainWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; font-weight:700;\">0x20f21D732c9e82fA3E58A948329D16D3A4192119</span></p></body></html>", None))
+        self.pushButton_copy_wallet_address.setText(QCoreApplication.translate("MainWindow", u"COPY", None))
+        self.label_qr_address.setText(QCoreApplication.translate("MainWindow", u"QRCODE", None))
+        self.label.setText(QCoreApplication.translate("MainWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; font-weight:700;\">Total Balance:</span></p></body></html>", None))
+        self.label_6.setText(QCoreApplication.translate("MainWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; font-weight:700;\">0.00$</span></p></body></html>", None))
         self.pushButton_add_wallet.setText("")
         self.label_logo_8.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-size:14pt; font-weight:700;\">Import or create wallet</span></p></body></html>", None))
         self.button_import_wallet.setText(QCoreApplication.translate("MainWindow", u"Import Wallet", None))

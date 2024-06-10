@@ -1,5 +1,6 @@
 ## ==> GUI FILE
 from gui import *
+from ui_assets import *
 
 ## ==> GLOBALS
 GLOBAL_STATE = 0
@@ -7,9 +8,12 @@ GLOBAL_TITLE_BAR = True
 
 ## ==> COUT INITIAL MENU
 count = 1
+## ==> COUT INITIAL WALLET
+count_wallet = 1
 
 popup_width = 200
 popup_height = 60
+
 
 
 class UIFunctions(QMainWindow):
@@ -21,6 +25,7 @@ class UIFunctions(QMainWindow):
     animation_in = None
     animation_out = None
     
+
     def connectButtons(self):
         #UnlockPage:
         self.ui.button_Unlock.clicked.connect(self.unlockWallet)
@@ -154,12 +159,69 @@ class UIFunctions(QMainWindow):
         for w in self.ui.frame_left_menu.findChildren(QPushButton):
             if w.objectName() != widget:
                 w.setStyleSheet(UIFunctions.deselectMenu(w.styleSheet()))
+        
+       
+                
+    def selectWalletStyle(getStyle):
+        select = getStyle + ("QPushButton { border-left: 3px solid rgb(85, 170, 255); }")
+        return select
+
+    def deselectWalletStyle(getStyle):
+        deselect = getStyle.replace("QPushButton { border-left: 3px solid rgb(85, 170, 255); }", "")
+        return deselect
+
+    def addWalletButtons(self, wallet_data):
+        global count_wallet
+        layout = self.ui.widget_Wallets.layout()
+
+        if layout is None:
+            layout = QVBoxLayout(self.ui.widget_Wallets)
+            self.ui.widget_Wallets.setLayout(layout)
+        else:
+            # Clear existing layout
+            while layout.count():
+                item = layout.takeAt(0)
+                widget = item.widget()
+                if widget is not None:
+                    widget.setParent(None)
+                else:
+                    layout.removeItem(item)
+
+        # Create new buttons and add them to the layout
+        for wallet in wallet_data:
+            button = QPushButton(wallet["name"])
+            button.setObjectName("select_wallet_" + wallet["name"])
+            button.setMinimumHeight(30)
+            button.setStyleSheet(Style.style_bt_wallet)
+            sizePolicy3 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+            sizePolicy3.setHorizontalStretch(0)
+            sizePolicy3.setVerticalStretch(0)
+            sizePolicy3.setHeightForWidth(button.sizePolicy().hasHeightForWidth())
+            button.setSizePolicy(sizePolicy3)
+            button.setMinimumSize(QSize(10, 30))
+            button.setLayoutDirection(Qt.LeftToRight)
+            button.clicked.connect(self.Button)
+            layout.addWidget(button)
+            count_wallet += 1  # Increment the global counter if needed
+            self.ui.widget_Wallets.setLayout(layout)
+
+
+
+    def selectWallet(self, widget):
+        for w in self.ui.widget_Wallets.findChildren(QPushButton):
+            if w.objectName() == widget:
+                w.setStyleSheet(UIFunctions.selectWalletStyle(w.styleSheet()))
+
+    def resetWalletStyle(self, widget):
+        for w in self.ui.widget_Wallets.findChildren(QPushButton):
+            if w.objectName() != widget:
+                w.setStyleSheet(UIFunctions.deselectWalletStyle(w.styleSheet()))
+
 
     def labelPage(self, text):
         newText = "| " + text.upper()
         self.ui.label_top_info_2.setText(newText)
 
-   
     def uiDefinitions(self):
         def dobleClickMaximizeRestore(event):
             # IF DOUBLE CLICK CHANGE STATUS
@@ -219,8 +281,6 @@ class UIFunctions(QMainWindow):
     def verify_password(self, entered_password):
         stored_clear = self.settings.settings["cache:refferenceClear"]
         stored_hash = self.settings.settings["cache:refferenceHash"]
-        
-        print(stored_hash)
         if stored_hash == "":
                 UIFunctions.show_incorrect_animation(self, self.ui.button_createPW)
                 UIFunctions.show_popup(self.ui.frame_popup, "First create password", "red")
@@ -240,18 +300,111 @@ class UIFunctions(QMainWindow):
             return False 
         
 
+    def add_assets_to_scroll_area(self):
+        scroll_area = self.ui.scrollArea_wallet_assets
+        inner_widget = scroll_area.widget()
+        if inner_widget is None:
+            inner_widget = QWidget()
+            scroll_area.setWidget(inner_widget)
+            inner_layout = QVBoxLayout(inner_widget)
+        else:
+            inner_layout = inner_widget.layout()
+            if inner_layout is None:
+                inner_layout = QVBoxLayout(inner_widget)
+
+        if inner_layout is not None:
+            while inner_layout.count():
+                item = inner_layout.takeAt(0)
+                if item.widget():
+                    item.widget().deleteLater()
+
+        if not hasattr(self, 'spinner') or self.spinner is None:
+            self.spinner = SvgSpinnerWidget(UIAssets.SpinnerSVG(), inner_widget)
+            self.spinner.setMinimumSize(50, 50)
+            self.spinner.setMaximumSize(50, 50)
+            self.spinner.setObjectName("spinner")
+            inner_layout.addWidget(self.spinner, alignment=Qt.AlignCenter)
+        elif self.spinner.parent() != inner_widget:
+            self.spinner.setParent(inner_widget)
+            inner_layout.addWidget(self.spinner, alignment=Qt.AlignCenter)
+
+        if hasattr(self, 'spinner') and self.spinner:
+            self.spinner.show()
+
+        def load_assets_and_remove_spinner():
+            UIFunctions.load_assets(self, inner_layout)
+            if hasattr(self, 'spinner') and self.spinner:
+                self.spinner.hide()
+                self.spinner.deleteLater()
+                self.spinner = None
+
+        QTimer.singleShot(200, load_assets_and_remove_spinner)
+        
+
+    def load_assets(self, layout):          
+        asset_data = [
+            ("BTC", "25598.45", "2.3", "0.1", "https://s2.coinmarketcap.com/static/img/coins/64x64/1.png"),
+            ("ETH", "1500.32", "-1.8", "300.54", "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png"),
+            ("ETH", "1500.32", "-1.8", "300.54", "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png"),
+            ("ETH", "1500.32", "-1.8", "300.54", "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png"),
+            ("ETH", "1500.32", "-1.8", "300.54", "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png"),
+            ("ETH", "1500.32", "-1.8", "300.54", "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png"),
+            ("ETH", "1500.32", "-1.8", "300.54", "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png")
+        ]
+        
+        for index, data in enumerate(asset_data):
+            
+            asset_widget = QWidget()
+            asset_layout = QHBoxLayout(asset_widget)
+            asset_widget.setStyleSheet("background-color: #2D354C; border-radius: 5px; max-height: 50px;")
+
+            # Icon label
+            icon_label = QLabel()
+            unique_identifier = f"{data[0]}_{index}"
+            self.icon_labels[unique_identifier] = icon_label  # Store the label with the URL as the identifier
+            asset_layout.addWidget(icon_label)
+            UIFunctions.load_image(self, data[4], unique_identifier)
+
+            # Name label
+            name_label = QLabel(data[0])
+            name_label.setStyleSheet("font-weight: bold; font-size: 16px; color: white;")
+            asset_layout.addWidget(name_label)
+
+            # USD value label
+            symbol = '▲' if float(data[2]) >= float(0) else '▼'
+            color = 'lightgreen' if float(data[2]) >= float(0) else 'red'
+            
+            usd_label = QLabel(f"${data[1]}")
+            usd_label.setStyleSheet(f"font-size: 14px; color: {color};")
+            asset_layout.addWidget(usd_label)
+
+            percentage_label = QLabel(f"{symbol} {data[2]}%")
+            percentage_label.setStyleSheet(f"font-size: 14px; color: {color};")
+            asset_layout.addWidget(percentage_label)
+
+            asset_balance = QLabel(f"{data[3]} {data[0]}")
+            asset_balance.setStyleSheet(f"font-size: 14px; color: black; font-weight: bold;")
+            asset_layout.addWidget(asset_balance)
+
+            balance_usd = float(data[1]) * float(data[3])  # Calculating the USD value of the balance
+            balance_usd_label = QLabel(f"${self.w3.w3U.custom_round(balance_usd)}")
+            balance_usd_label.setStyleSheet("font-size: 14px; font-weight: bold; color: lightgray;")
+            asset_layout.addWidget(balance_usd_label)
+            layout.addWidget(asset_widget)
 
 
+    def load_image(self, url, unique_identifier):
+        request = QNetworkRequest(QUrl(url))
+        reply = self.net_manager_Icons.get(request)
+        reply.finished.connect(lambda:UIFunctions.on_finished(self, reply, unique_identifier))
 
-
-
-
-
-
-
-
-
-
+    def on_finished(self, reply, unique_identifier):
+        data = reply.readAll()
+        pixmap = QPixmap()
+        pixmap.loadFromData(data)
+        if unique_identifier in self.icon_labels:
+            label = self.icon_labels[unique_identifier]
+            label.setPixmap(pixmap.scaled(30, 30, Qt.KeepAspectRatio, Qt.SmoothTransformation))
 
 
     def populate_chain_combobox(self):
@@ -284,13 +437,12 @@ class UIFunctions(QMainWindow):
         original_geometry = component.geometry()
         original_style = component.styleSheet()
         animation = QPropertyAnimation(component, b"geometry")
-        animation.setDuration(500)  # Extends the animation duration to 2 seconds
-        movements = [-10, 10] * 5  # Repeated movements for dynamic effect
+        animation.setDuration(500) 
+        movements = [-10, 10] * 5  
         num_moves = len(movements)
         for i, offset in enumerate(movements):
-            # Correctly set keyframes within the range [0.0, 1.0]
             step = (i + 1) / num_moves
-            if step < 1.0:  # Ensure that we do not exceed the 1.0 limit
+            if step < 1.0: 
                 new_rect = QRect(
                     original_geometry.x() + offset,
                     original_geometry.y(),
@@ -298,8 +450,6 @@ class UIFunctions(QMainWindow):
                     original_geometry.height()
                 )
                 animation.setKeyValueAt(step, new_rect)
-
-        # Ensure the final position is the original geometry
         animation.setEndValue(original_geometry)
         component.setStyleSheet(component.styleSheet() + "border: 2px solid red;")
         animation_group = QSequentialAnimationGroup(self)
@@ -378,6 +528,31 @@ class Popup(QFrame):
         label.setStyleSheet(f"color: {color};")
         label.setAlignment(Qt.AlignCenter)
         layout.addWidget(label)
+        
+        
+        
+class SvgSpinnerWidget(QWidget):
+    def __init__(self, svg_data, parent=None):
+        super().__init__(parent)
+        self.renderer = QSvgRenderer(svg_data.encode('utf-8'))
+        self.angle = 0
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.update_rotation)
+        self.timer.start(50)  # Animation speed
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.Antialiasing)
+        transform = QTransform()
+        transform.translate(self.width() / 2, self.height() / 2)
+        transform.rotate(self.angle)
+        transform.translate(-self.width() / 2, -self.height() / 2)
+        painter.setTransform(transform)
+        self.renderer.render(painter, QRect(0, 0, self.width(), self.height()))
+
+    def update_rotation(self):
+        self.angle = (self.angle + 10) % 360
+        self.update()  # Triggers a repaint
 
     ########################################################################
     ## END - GUI DEFINITIONS

@@ -3,22 +3,28 @@ from PySide6.QtGui import QImage, QPixmap
 from PySide6.QtCore import QByteArray, QBuffer
 
 def download_image(url):
-    response = requests.get(url)
-    if response.status_code == 200:
-        return response.content
-    return None
+    try:
+        response = requests.get(url)
+        if response.status_code == 200:
+            return response.content
+        return None
+    except Exception as e:
+        print(e)
+        return None
 
 def download_image_as_base64(url) -> bytes:
-    response = requests.get(url)
-    if response.status_code == 200:
-        image = QImage()
-        image.loadFromData(response.content)
-        buffer = QBuffer()
-        buffer.open(QBuffer.ReadWrite)
-        image.save(buffer, "PNG")
-        base64_data = base64.b64encode(buffer.data()).decode()
-        return base64_data
-    return None
+    try:
+        response = requests.get(url)
+        if response.status_code == 200:
+            image = QImage()
+            image.loadFromData(response.content)
+            buffer = QBuffer()
+            buffer.open(QBuffer.ReadWrite)
+            image.save(buffer, "PNG")
+            base64_data = base64.b64encode(buffer.data()).decode()
+            return base64_data
+    except Exception as e:
+        return None
 
 class chain_mod:
     

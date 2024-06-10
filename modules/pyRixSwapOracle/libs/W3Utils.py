@@ -1,6 +1,7 @@
 from ..imports import *
 
 class W3Utils:
+    
     def __init__(self, settings, w3):
         self.settings, self.w3 = settings, w3
 
@@ -48,8 +49,8 @@ class W3Utils:
         return decimal_places
     
     def get_human_amount(self, number):
-        format = "{:." + f"{self.get_decimal_places(number)}" + "f}"
-        decimal_number = format.format(number)
+        decimal_places = self.get_decimal_places(number)
+        format_string = f"{{:.{decimal_places}f}}"
+        decimal_number = format_string.format(number)
         return decimal_number
-    
 

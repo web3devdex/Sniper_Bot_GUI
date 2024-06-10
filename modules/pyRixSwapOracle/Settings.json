@@ -1,1 +1,21 @@
-{"GWEI_GAS": 3, "GWEI_OFFSET": 1, "MaxTXFeeBNB": 0.01, "Slippage": 20, "MinLiquidityUSD": 10000, "MaxSellTax": 25, "MaxBuyTax": 15, "timeout": 120, "cache:ChainID": "56", "cache:refferenceClear": "Synarix", "cache:refferenceHash": "IY4cHITZTpGAjUOM6uKSlZTSmBJf2OyFIGod87N3JoDesZ2x8dBiiE7vos8gtwzbDBSdmnNm3s8aMpKITIcwbdKUqjUez5QMVzIRS37s4GE=", "wallets": [{}]}
+{
+ "GWEI_GAS": 3,
+ "GWEI_OFFSET": 1,
+ "MaxTXFeeBNB": 0.01,
+ "Slippage": 20,
+ "MinLiquidityUSD": 10000,
+ "MaxSellTax": 25,
+ "MaxBuyTax": 15,
+ "timeout": 120,
+ "cache:ChainID": "137",
+ "cache:SelectedWallet": "",
+ "cache:refferenceClear": "Synarix",
+ "cache:refferenceHash": "",
+ "wallets": [
+  {
+   "name": "Jug",
+   "address": "0x1bbfDbCE9c7C8f505285b6a870cbD08cc68d7d75",
+   "key": "PSlACm5bOtE3+3plOWxhRhDLMmMK4KjFXR0hZE9SD+gZvGWAWWag3f15PEaJFH+Db74cRpjj9ypDahuuPdJrHru69SYmyzqBZa/gWmXV7hrFK5vsTVMM7d0UELAD5rBsDLkUIFNZs3o/0LYDVJ3ueeV0O4RRt2KqLMtperQKmTTXTjVTdQJ4CAxHASFnnq3o"
+  }
+ ]
+}

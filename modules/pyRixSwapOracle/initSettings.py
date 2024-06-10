@@ -5,6 +5,7 @@ from PySide6.QtWidgets import QApplication, QFileDialog
 class initSettings:
     def __init__(self):
         self.settings = self.initSettingsFile()
+        self.wallets = self.loadWallets()
 
     def initSettingsFile(self):
         if getattr(sys, 'frozen', False):
@@ -28,20 +29,38 @@ class initSettings:
         with open(self.settings_path, "w") as f:
             json.dump(self.settings, f)
             
+        
+    def loadWallets(self):
+        return self.settings.get('wallets', [])
+
+    def addWallet(self, name, address, private_key_hex):
+        try:
+            new_wallet = {
+                "name": name,
+                "address": address,
+                "key": private_key_hex
+            }
+            self.wallets.append(new_wallet)
+            self.updateSetting('wallets', self.wallets)
+            return True
+        except Exception as e:
+            print(e)
+            return False
+        
+            
             
     def backupSettings(self):
         filepath, _ = QFileDialog.getSaveFileName(
             None,
             "Save Settings File",
-            os.path.expanduser("~"),  # Start in the user's home directory
+            os.path.expanduser("~"), 
             "JSON files (*.json)"
         )
         if filepath:
             try:
-                # Save the settings to the selected file
                 with open(filepath, 'w') as file:
                     json.dump(self.settings, file, indent=4)
-                print(f"Settings saved to {filepath}")
+                return True
             except PermissionError:
-                print("Permission denied: Unable to write to the selected directory.")
+                return False
         

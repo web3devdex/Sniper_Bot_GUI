@@ -1,23 +1,7 @@
-################################################################################
-##
-## BY: WANDERSON M.PIMENTA :-*
-## PROJECT MADE WITH: Qt Designer and PySide6
-## V: 1.0.0
-##
-## This project can be used freely for all uses, as long as they maintain the
-## respective credits only in the Python scripts, any information in the visual
-## interface (GUI) can be modified without any implication.
-##
-## There are limitations on Qt licenses if you want to use your products
-## commercially, I recommend reading them on the official website:
-## https://doc.qt.io/qtforpython/licenses.html
-##
-################################################################################
 
-class Style():
+class Style:
 
-    style_bt_standard = (
-    """
+    style_bt_standard = """
     QPushButton {
         background-image: ICON_REPLACE;
         background-position: left center;
@@ -55,4 +39,18 @@ class Style():
     }
     
     """
-    )
+
+    style_bt_wallet = """
+QPushButton {
+	background-position: center;
+	background-repeat: no-reperat;
+	border:  rgb(27, 29, 35);
+    background-color: rgb(80, 94, 134);
+	border-radius:5%;
+}
+QPushButton:hover {
+	background-color: rgb(33, 37, 43);
+}
+QPushButton:pressed {	
+	background-color: rgb(85, 170, 255);
+}"""

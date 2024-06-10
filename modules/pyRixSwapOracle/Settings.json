@@ -12,10 +12,5 @@
  "cache:refferenceClear": "Synarix",
  "cache:refferenceHash": "",
  "wallets": [
-  {
-   "name": "Jug",
-   "address": "0x1bbfDbCE9c7C8f505285b6a870cbD08cc68d7d75",
-   "key": "PSlACm5bOtE3+3plOWxhRhDLMmMK4KjFXR0hZE9SD+gZvGWAWWag3f15PEaJFH+Db74cRpjj9ypDahuuPdJrHru69SYmyzqBZa/gWmXV7hrFK5vsTVMM7d0UELAD5rBsDLkUIFNZs3o/0LYDVJ3ueeV0O4RRt2KqLMtperQKmTTXTjVTdQJ4CAxHASFnnq3o"
-  }
  ]
 }
